@@ -3,6 +3,13 @@
   <h1>Sign up</h1>
 
   <div class="content-section">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="notification is-danger">
+        {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+      </div>
+    {% endif %}
+    {% endwith %}
     <form method="POST" action="">
       {{ form.hidden_tag() }}
       <fieldset class="form-group">
@@ -78,6 +85,6 @@
     </form>
   </div>
   <div class="border-top pt-3">
-    <small>Do you have an account? <a class="ml-2" href="{{url_for('login')}}">Log in</a></small>
+    <small>Do you have an account? <a class="ml-2" href="{{url_for('auth.login')}}">Log in</a></small>
   </div>  
 {% endblock %}

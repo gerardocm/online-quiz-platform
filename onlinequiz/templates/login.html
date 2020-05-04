@@ -3,6 +3,13 @@
   <h1>Login</h1>
 
   <div class="content-section">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="notification is-danger">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+    {% endwith %}
     <form method="POST" action="">
       {{ form.hidden_tag() }}
       <fieldset class="form-group">
@@ -39,6 +46,6 @@
     </form>
   </div>
   <div class="border-top pt-3">
-    <small>Do not have an account? <a class="ml-2" href="{{url_for('signup')}}">Sign up</a></small>
+    <small>Do not have an account? <a class="ml-2" href="{{url_for('auth.signup')}}">Sign up</a></small>
   </div>  
 {% endblock %}
