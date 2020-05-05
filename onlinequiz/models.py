@@ -10,10 +10,10 @@ class User(UserMixin, db.Model):
   email = db.Column(db.String(35), unique=True, nullable=False)
   password = db.Column(db.String(25), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  question_sets =  db.relationship('QuestionSet', backref='owner', lazy=True)
+  question_sets =  db.relationship('QuestionSet', lazy=True)
   multichoice_questions_assigned = db.relationship('UserMultichoiceQuestion', backref='user_assigned', lazy=True)
   manual_questions_assigned = db.relationship('UserManualQuestion', backref='user_assigned', lazy=True)
-  manual_questions_assigned = db.relationship('UserVotingQuestion', backref='user_assigned', lazy=True)
+  voting_questions_assigned = db.relationship('UserVotingQuestion', backref='user_assigned', lazy=True)
 
   def __repr__(self):
     return f"User('{self.email}')'"
@@ -27,9 +27,9 @@ class QuestionSet(db.Model):
   is_public =  db.Column(db.Boolean(), nullable=True, default=False)
   due_date = db.Column(db.DateTime, nullable=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  multichoice_question =  db.relationship('MultichoiceQuestion', backref='question_set', lazy=True)
-  manual_question =  db.relationship('ManualQuestion', backref='question_set', lazy=True)
-  voting_question =  db.relationship('VotingQuestion', backref='question_set', lazy=True)
+  multichoice_question =  db.relationship('MultichoiceQuestion', lazy=True)
+  manual_question =  db.relationship('ManualQuestion', lazy=True)
+  voting_question =  db.relationship('VotingQuestion', lazy=True)
 
   def __repr__(self):
     return f"QuestionSet('{self.id}')'"
@@ -40,7 +40,7 @@ class MultichoiceQuestion(db.Model):
   question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'))
   question = db.Column(db.String(100), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  options =  db.relationship('MultichoiceOption', backref='multichoice_question', lazy=True)
+  options =  db.relationship('MultichoiceOption', lazy=True)
 
   def __repr__(self):
     return f"MultichoiceQuestion('{self.id}')'"
