@@ -1,0 +1,47 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top" id="mainNav">
+        <div class="container-fluid">
+            <a class="navbar-brand js-scroll-trigger" href="index.html">
+                <img src="../static/final-logo-example.png">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown  main-menu">
+                        <a class="nav-link dropdown-toggle" href="#">My Profile</a>
+                        <!-- This needs to be updated to be the person's username if validated-->
+                        <div class="dropdown-menu main-menubox" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">About Me</a>
+                            <a class="dropdown-item" href="#">My Quiz Results</a>
+                            <a class="dropdown-item" href="#">Update Details</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown main-menu">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Quizzes
+                        </a>
+                        <ul class="dropdown-menu main-menubox" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Take a Quiz!</a></li>
+                            <li><a class="dropdown-item" href="#">Create a Quiz!</a></li>
+                            <li><a class="dropdown-item" href="#">How to</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('auth.signup')}}">Signup</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
