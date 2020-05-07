@@ -22,7 +22,7 @@ class QuestionSet(db.Model):
   __tablename__ = 'QuestionSet'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(35), nullable=False)
-  owner =  db.Column(db.Integer, db.ForeignKey('User.id'))
+  owner =  db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
   submitted =  db.Column(db.Boolean(), nullable=True, default=False)
   is_public =  db.Column(db.Boolean(), nullable=True, default=False)
   due_date = db.Column(db.DateTime, nullable=True)
@@ -37,7 +37,7 @@ class QuestionSet(db.Model):
 class MultichoiceQuestion(db.Model):
   __tablename__ = 'MultichoiceQuestion'
   id = db.Column(db.Integer, primary_key=True)
-  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'))
+  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'), nullable=False)
   question = db.Column(db.String(100), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   options =  db.relationship('MultichoiceOption', lazy=True)
@@ -51,7 +51,7 @@ class MultichoiceOption(db.Model):
   option = db.Column(db.String(100), nullable=False)
   is_correct =  db.Column(db.Boolean(), nullable=True, default=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  multichoice_question = db.Column(db.Integer, db.ForeignKey('MultichoiceQuestion.id'))
+  multichoice_question = db.Column(db.Integer, db.ForeignKey('MultichoiceQuestion.id'), nullable=False)
 
   def __repr__(self):
     return f"MultichoiceOption('{self.id}')'"
@@ -68,9 +68,9 @@ class UserMultichoiceQuestion(db.Model):
   )
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'))
-  multichoice_option_id = db.Column(db.Integer, db.ForeignKey('MultichoiceOption.id'))
-  multichoice_question_id = db.Column(db.Integer, db.ForeignKey('MultichoiceQuestion.id'))
+  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  multichoice_option_id = db.Column(db.Integer, db.ForeignKey('MultichoiceOption.id'), nullable=False)
+  multichoice_question_id = db.Column(db.Integer, db.ForeignKey('MultichoiceQuestion.id'), nullable=False)
   multichoice_option = db.relationship("MultichoiceOption")
   multichoice_question = db.relationship("MultichoiceQuestion")
 
@@ -83,7 +83,7 @@ class UserMultichoiceQuestion(db.Model):
 class ManualQuestion(db.Model):
   __tablename__ = 'ManualQuestion'
   id = db.Column(db.Integer, primary_key=True)
-  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'))
+  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'), nullable=False)
   question = db.Column(db.String(100), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -103,8 +103,8 @@ class UserManualQuestion(db.Model):
   answer = db.Column(db.String(100), nullable=True)
   mark = db.Column(db.String(100), nullable=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'))
-  manual_question_id = db.Column(db.Integer, db.ForeignKey('ManualQuestion.id'))
+  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  manual_question_id = db.Column(db.Integer, db.ForeignKey('ManualQuestion.id'), nullable=False)
   manual_question = db.relationship("ManualQuestion")
 
   def __repr__(self):
@@ -117,7 +117,7 @@ class UserManualQuestion(db.Model):
 class VotingQuestion(db.Model):
   __tablename__ = 'VotingQuestion'
   id = db.Column(db.Integer, primary_key=True)
-  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'))
+  question_set =  db.Column(db.Integer, db.ForeignKey('QuestionSet.id'), nullable=False)
   question = db.Column(db.String(100), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
@@ -129,7 +129,7 @@ class VotingOption(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   option = db.Column(db.String(100), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  voting_question = db.Column(db.Integer, db.ForeignKey('VotingQuestion.id'))
+  voting_question = db.Column(db.Integer, db.ForeignKey('VotingQuestion.id'), nullable=False)
 
   def __repr__(self):
     return f"VotingOption('{self.id}')'"
@@ -146,9 +146,9 @@ class UserVotingQuestion(db.Model):
   )
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'))
-  voting_option_id = db.Column(db.Integer, db.ForeignKey('VotingOption.id'))
-  voting_question_id = db.Column(db.Integer, db.ForeignKey('VotingQuestion.id'))
+  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  voting_option_id = db.Column(db.Integer, db.ForeignKey('VotingOption.id'), nullable=False)
+  voting_question_id = db.Column(db.Integer, db.ForeignKey('VotingQuestion.id'), nullable=False)
   voting_option = db.relationship("VotingOption")
   voting_question = db.relationship("VotingQuestion")
 

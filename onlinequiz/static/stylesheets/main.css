@@ -25,3 +25,8 @@
   border-radius: 0px;
   margin: 24px auto;
 }
+
+.content-questionset {
+  max-width: 824px;
+  margin: auto;
+}

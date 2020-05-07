@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class SignUpForm(FlaskForm):
@@ -35,3 +35,16 @@ class LoginForm(FlaskForm):
     validators=[DataRequired(), Length(min=8, max=25)]
   )
   submit = SubmitField('Login')
+
+class QuestionSetForm(FlaskForm):
+  name = StringField(
+    'Name', 
+    validators=[DataRequired(), Length(min=3, max=35)]
+  )
+  is_public = BooleanField(
+    'Public question set', 
+  )
+  due_date = DateTimeField(
+    'Due date'
+  )
+  submit = SubmitField('Form')

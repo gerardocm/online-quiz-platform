@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block main %}
+
+  <div class="content-questionset">
+    <h1 class="text-center my-4">{{title}}</h1>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alert alert-danger" role="alert">
+          {{ messages[0] }}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.name.label(class="form-control-label") }}
+        {% if form.name.errors %}
+          {{ form.name(class="form-control form-control-lg is-invalid") }}
+          <div class="invalid-feedback">
+            {% for error in form.name.errors %}
+              <span>{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.name(class="form-control form-control-lg") }}
+        {% endif %}
+      </div>
+      <div class="form-check my-4">
+        {{ form.is_public(class="form-check-input") }}
+        {{ form.is_public.label(class="form-check-label") }}
+      </div>
+      <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+    {% if set_id %}
+      <div class="m-4">
+        User will be listed here
+      </div>
+      <div class="my-4">
+        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+          <a class="btn btn-primary w-100" href="{{ url_for('main.multichoice_question', set_id=set_id) }}">
+            <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
+            <i class="fas fa-plus"></i> Multichoice
+          </a>
+          <a class="btn btn-primary w-100" href="{{ url_for('main.manual_question', set_id=set_id) }}">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>
+            <i class="fas fa-plus"></i> Manual
+          </a>
+          <a class="btn btn-primary w-100" href="{{ url_for('main.voting_question', set_id=set_id) }}">
+            <input type="radio" name="options" id="option1" autocomplete="off" checked>
+            <i class="fas fa-plus"></i> Community Voting
+          </a>
+        </div>
+      </div>
+      <div class="m-4">
+        <!-- <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">Multichoice question</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div> -->
+      </div>
+      <div class="m-4">
+        Manual question will be listed here
+      </div>
+      <div class="m-4">
+        Voting question will be listed here
+      </div>
+    {% endif %}
+  </div>
+
+{% endblock %}
