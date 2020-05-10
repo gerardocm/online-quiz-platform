@@ -54,6 +54,7 @@ def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
     user = User.query.filter_by(email=email).first()
+    form = LoginForm()
 
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
