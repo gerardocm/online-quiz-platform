@@ -1,0 +1,20 @@
+<div class="content-manual">
+  <h1 class="text-center my-4">Add New Manual Question</h1>
+  <div class="alert alert-danger" id="alert-question-error" role="alert">
+    There was an error, please try later again.
+  </div>
+  <div class="alert alert-success" id="alert-question-success" role="alert">
+    Question added successfully!
+  </div>
+  
+  <form method="POST" action="" id="manual-question-form">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.question.label(class="form-control-label") }}
+      {{ form.question(class="form-control form-control-lg") }}
+    </div>
+    <div class="form-group d-flex">
+      {{ form.submit(class="btn btn-outline-info ml-auto") }}
+    </div>
+  </form>
+</div>

@@ -30,3 +30,7 @@
   max-width: 824px;
   margin: auto;
 }
+
+.icon-danger {
+  color: red !important;
+}

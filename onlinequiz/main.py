@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from onlinequiz.forms import QuestionSetForm
-from onlinequiz.models import QuestionSet
+from onlinequiz.forms import QuestionSetForm, QuestionForm
+from onlinequiz.models import QuestionSet, ManualQuestion, MultichoiceQuestion, MultichoiceOption
 from onlinequiz import db
 from sqlalchemy.exc import IntegrityError
-
+from flask import jsonify
+import json
 
 main = Blueprint('main', __name__)
 
@@ -27,19 +28,17 @@ def quizzes():
 @login_required
 def question_set():
   form = QuestionSetForm()
-  print("get")
   return render_template('create-question-set.html', title='Create a new quiz set', form=form)
 
 @main.route('/create-question-set', methods=['POST'])
 @login_required
 def question_set_post():
   name = request.form.get('name')
-  print(request.form.get('is_public'))
   is_public = True if request.form.get('is_public') is not None else False
   # date = request.form.get('due_date')
   form = QuestionSetForm()
   if not form.validate_on_submit():
-    flash('There was an error while creaating the quiz set.')
+    flash('There was an error while creating the question set.')
     return render_template('create-question-set.html', title='Create a new quiz set', form=form)
 
   try:
@@ -86,7 +85,51 @@ def multichoice_question(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
-  return render_template('create-multichoice-question.html')
+
+  form = QuestionForm(question_set=question_set.id)
+  return render_template('forms/multichoice-question.html', form=form)
+
+@main.route('/create-question-set/<int:set_id>/multichoice-question', methods=['POST'])
+@login_required
+def multichoice_question_post(set_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  question = request.form.get('question')
+  options = json.loads(request.form.get('options').replace("'", "\""))
+  print(question)
+  form = QuestionForm(question=question)
+  if not question:
+    raise InvalidUsage('There was an error while creating the quiz set.')
+  for option in options:
+    if not option['option']:
+      raise InvalidUsage('There was an error while creating the quiz set.')
+
+  try:
+    new_question = MultichoiceQuestion(
+      question=question,
+      question_set=set_id
+    )
+    db.session.add(new_question)
+    db.session.commit()
+    for option in options:
+      new_option = MultichoiceOption(
+        option=option['option'],
+        is_correct=option['is_correct'],
+        multichoice_question=new_question.id
+      )
+      db.session.add(new_option)
+      db.session.commit()
+  except:
+    raise InvalidUsage('There was an error while creating the quiz set.')
+
+  response = jsonify({
+    'id': new_question.id,
+    'question': new_question.question
+  })
+  response.status_code = 200
+  return response
 
 @main.route('/create-question-set/<int:set_id>/manual-question')
 @login_required
@@ -94,7 +137,38 @@ def manual_question(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
-  return render_template('create-manual-question.html')
+
+  form = QuestionForm()
+  return render_template('forms/manual-question.html', form=form)
+
+@main.route('/create-question-set/<int:set_id>/manual-question', methods=['POST'])
+@login_required
+def manual_question_post(set_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  form = QuestionForm(request.form)
+  if not form.validate_on_submit():
+    raise InvalidUsage('There was an error while creating the quiz set.')
+
+  try:
+    question = request.form.get('question')
+    new_question = ManualQuestion(
+      question=question,
+      question_set=set_id
+    )
+    db.session.add(new_question)
+    db.session.commit()
+  except e:
+    raise InvalidUsage('There was an error while creating the quiz set.')
+
+  response = jsonify({
+    'id': new_question.id,
+    'question': new_question.question
+  })
+  response.status_code = 200
+  return response
 
 @main.route('/create-question-set/<int:set_id>/voting-question')
 @login_required
@@ -102,4 +176,27 @@ def voting_question(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
-  return render_template('create-voting-question.html')
+
+  form = QuestionForm(question_set=question_set.id)
+  return render_template('forms/voting-question.html', form=form)
+
+class InvalidUsage(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+@main.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response

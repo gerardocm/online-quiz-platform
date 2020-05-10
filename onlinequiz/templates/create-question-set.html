@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block head %}
+<!-- Local JS file added-->
+<script type="text/javascript" src="{{url_for('static', filename='scripts/create-question-set.js')}}"></script>
+{% endblock head%}
+
 {% block main %}
 
   <div class="content-questionset">
@@ -29,31 +34,34 @@
         {{ form.is_public(class="form-check-input") }}
         {{ form.is_public.label(class="form-check-label") }}
       </div>
-      <div class="form-group">
-        {{ form.submit(class="btn btn-outline-info") }}
+      <div class="form-group d-flex" id="question-set-submit">
+        {{ form.submit(class="btn btn-outline-info ml-auto") }}
       </div>
     </form>
     {% if set_id %}
       <div class="m-4">
         User will be listed here
       </div>
+      
       <div class="my-4">
         <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-          <a class="btn btn-primary w-100" href="{{ url_for('main.multichoice_question', set_id=set_id) }}">
+          <label class="btn btn-primary w-100">
             <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
             <i class="fas fa-plus"></i> Multichoice
-          </a>
-          <a class="btn btn-primary w-100" href="{{ url_for('main.manual_question', set_id=set_id) }}">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>
+          </label>
+          <label class="btn btn-primary w-100">
+            <input type="radio" name="add-manual" id="add-manual" autocomplete="off" checked>
             <i class="fas fa-plus"></i> Manual
-          </a>
-          <a class="btn btn-primary w-100" href="{{ url_for('main.voting_question', set_id=set_id) }}">
-            <input type="radio" name="options" id="option1" autocomplete="off" checked>
+          </label>
+          <label class="btn btn-primary w-100" id="add-manual">
+            <input type="radio" name="add-voting" id="add-voting" autocomplete="off" checked>
             <i class="fas fa-plus"></i> Community Voting
-          </a>
+          </label>
         </div>
       </div>
+      <div class="m-4" id="create-question-form"></div>
       <div class="m-4">
+        Manual question will be listed here
         <!-- <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">Multichoice question</h5>
@@ -71,12 +79,10 @@
         </div> -->
       </div>
       <div class="m-4">
-        Manual question will be listed here
-      </div>
-      <div class="m-4">
         Voting question will be listed here
       </div>
     {% endif %}
   </div>
 
+<!-- <script type="text/javascript" src="{{url_for('static', filename='scripts/create-question-set.js')}}"></script> -->
 {% endblock %}

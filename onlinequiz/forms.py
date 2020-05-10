@@ -47,4 +47,11 @@ class QuestionSetForm(FlaskForm):
   due_date = DateTimeField(
     'Due date'
   )
-  submit = SubmitField('Form')
+  submit = SubmitField('Create')
+
+class QuestionForm(FlaskForm):
+  question = StringField(
+    'Question', 
+    validators=[DataRequired(), Length(min=3, max=35)]
+  )
+  submit = SubmitField('Save')

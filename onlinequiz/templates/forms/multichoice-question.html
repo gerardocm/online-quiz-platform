@@ -1,0 +1,42 @@
+<div class="content-multichoice">
+  <h1 class="text-center my-4">Add New Multichoice Question</h1>
+  <div class="alert alert-danger" id="alert-question-error" role="alert">
+    There was an error, please try later again.
+  </div>
+  <div class="alert alert-success" id="alert-question-success" role="alert">
+    Question added successfully!
+  </div>
+  
+  <form method="POST" action="" id="multichoice-question-form">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.question.label(class="form-control-label") }}
+      {{ form.question(class="form-control form-control-lg") }}
+    </div>
+    <hr>
+    <div id="answer-options">
+      <div class="form-group row" id="1">
+        <label for="option" class="col-sm-2 col-form-label">Answer option</label>
+        <div class="col-sm-7" id="input-col">
+          <input type="text" class="form-control" id="option" placeholder="Write an answer option..." required>
+        </div>
+        <div class="form-check col-sm-2 m-auto">
+          <input type="checkbox" class="form-check-input" id="checkbox-1">
+          <label class="form-check-label" for="is-correct">correct</label>
+        </div>
+        <div class="col-sm-1" id="btn-delete-col">
+          <button type="button" class="btn btn-outline-danger" id="btn-delete-option">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-outline-success" id="btn-add-option">
+      <i class="fas fa-plus-circle"></i> Add option
+    </button>
+    <hr>
+    <div class="form-group d-flex">
+      {{ form.submit(class="btn btn-outline-info ml-auto") }}
+    </div>
+  </form>
+</div>
