@@ -13,26 +13,14 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="url_for('main.home')">Home<span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item dropdown  main-menu">
-                        <a class="nav-link dropdown-toggle" href="#">My Profile</a>
-                        <!-- This needs to be updated to be the person's username if validated-->
-                        <div class="dropdown-menu main-menubox" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">About Me</a>
-                            <a class="dropdown-item" href="#">My Quiz Results</a>
-                            <a class="dropdown-item" href="#">Update Details</a>
-                        </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Profile</a>
                     </li>
-                    <li class="nav-item dropdown main-menu">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Quizzes
-                        </a>
-                        <ul class="dropdown-menu main-menubox" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Take a Quiz!</a></li>
-                            <li><a class="dropdown-item" href="#">Create a Quiz!</a></li>
-                            <li><a class="dropdown-item" href="#">How to</a></li>
-
-                        </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Take a Quiz!</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Create a Quiz!</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
