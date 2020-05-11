@@ -1,28 +1,38 @@
 <div class="content-multichoice">
-  <h1 class="text-center my-4">Add New Community Voting Question</h1>
-  {% if messages %}
-    <div class="alert alert-danger" id="alert-question-error" role="alert">
-      {{ messages[0] }}
-    </div>
-  {% endif %}
-
-  <form method="POST" action="">
+  <h2 class="text-center my-4">Add New Voting Question</h2>
+  <div class="alert alert-danger" id="alert-question-error" role="alert">
+    There was an error, please try later again.
+  </div>
+  <div class="alert alert-success" id="alert-question-success" role="alert">
+    Question added successfully!
+  </div>
+  
+  <form method="POST" action="" id="voting-question-form">
     {{ form.hidden_tag() }}
     <div class="form-group">
       {{ form.question.label(class="form-control-label") }}
-      {% if form.question.errors %}
-        {{ form.question(class="form-control form-control-lg is-invalid") }}
-        <div class="invalid-feedback">
-          {% for error in form.question.errors %}
-            <span>{{ error }}</span>
-          {% endfor %}
-        </div>
-      {% else %}
-        {{ form.question(class="form-control form-control-lg") }}
-      {% endif %}
+      {{ form.question(class="form-control form-control-lg") }}
     </div>
-    <div class="form-group">
-      {{ form.submit(class="btn btn-outline-info") }}
+    <hr>
+    <div id="answer-options">
+      <div class="form-group row" id="1">
+        <label for="option" class="col-sm-2 col-form-label">Answer option</label>
+        <div class="col-sm-9" id="input-col">
+          <input type="text" class="form-control" id="option" placeholder="Write an answer option..." required>
+        </div>
+        <div class="col-sm-1" id="btn-delete-col">
+          <button type="button" class="btn btn-outline-danger" id="btn-delete-option">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-outline-success" id="btn-add-option">
+      <i class="fas fa-plus-circle"></i> Add option
+    </button>
+    <hr>
+    <div class="form-group d-flex">
+      {{ form.submit(class="btn btn-outline-info ml-auto") }}
     </div>
   </form>
 </div>

@@ -54,10 +54,10 @@ $(document).ready(function() {
           submitMultichoiceQuestion();
         });
         $("#btn-delete-option").on("click", function() {
-          deleteMultichoiceOption($(this).parent().parent());
+          deleteOption($(this).parent().parent());
         });
         $("#btn-add-option").on("click", function() {
-          addMultichoiceOption();
+          addOption("voting");
         });
         $("#checkbox-1").change(function() {
           clearCheckboxes($(this));
@@ -72,7 +72,7 @@ $(document).ready(function() {
   function submitMultichoiceQuestion() {
     const url = "/create-question-set/" + questionSetId + "/multichoice-question";
     let formData = $("#multichoice-question-form").serializeArray();
-    formData.push(getFormOptions());
+    formData.push(getFormOptions("multichoice"));
     $("#alert-question-error").hide();
     $.post(url, formData, (success) => {
       $("#alert-question-success").show();
@@ -87,7 +87,51 @@ $(document).ready(function() {
     });
   }
 
-  function getFormOptions() {
+  function getVotingForm() {
+    const url = "/create-question-set/" + questionSetId + "/voting-question";
+    $.get(url, function(data, status){
+      if(status == "success") {
+        $("#create-question-form").empty();
+        $("#create-question-form").append(data);
+        $("#alert-question-error").hide();
+        $("#alert-question-success").hide();
+        questionOptionCount = 1;
+        $("#voting-question-form").on('submit', (evt) => {
+          evt.preventDefault();
+          submitVotingQuestion();
+        });
+        $("#btn-delete-option").on("click", function() {
+          deleteOption($(this).parent().parent());
+        });
+        $("#btn-add-option").on("click", function() {
+          addOption("voting");
+        });
+      }
+      else {
+        console.error(err);
+      }
+    });
+  };
+
+  function submitVotingQuestion() {
+    const url = "/create-question-set/" + questionSetId + "/voting-question";
+    let formData = $("#voting-question-form").serializeArray();
+    formData.push(getFormOptions("voting"));
+    $("#alert-question-error").hide();
+    $.post(url, formData, (success) => {
+      $("#alert-question-success").show();
+      $("#voting-question-form").hide();
+      setTimeout(() => {
+        $("#alert-question-success").hide();
+        $("#create-question-form").empty();
+      }, 2000);
+    })
+    .fail(() => {
+      $("#alert-question-error").show();
+    });
+  }
+
+  function getFormOptions(questionType) {
     let children = $("#answer-options").children();
     let options = {
       name: "options",
@@ -95,29 +139,23 @@ $(document).ready(function() {
     };
     children.each(function() {
       let input = $(this).find("#input-col").find("#option");
-      let checkbox = $(this).find(".form-check").find(".form-check-input");
-      options.value.push(JSON.stringify({
-        "option": input.val(),
-        "is_correct": checkbox.is(':checked')
-      }));
+      if(questionType === "multichoice") {
+        let checkbox = $(this).find(".form-check").find(".form-check-input");
+        options.value.push(JSON.stringify({
+          "option": input.val(),
+          "is_correct": checkbox.is(':checked')
+        }));
+      }
+      else if(questionType === "voting") {
+        options.value.push(JSON.stringify({
+          "option": input.val()
+        }));
+      }
     });
+    console.log('options.value :>> ', options.value);
     options.value = "["+options.value.toString()+"]";
     return options;
   }
-  
-  function getVotingForm() {
-    const url = "/create-question-set/" + questionSetId + "/voting-question";
-    $.get(url, function(data, status){
-      if(status == "success") {
-        $("#create-question-form").empty();
-        $("#create-question-form").append(data);
-      }
-      else {
-        console.error(err);
-        // alert-question-error
-      }
-    });
-  };
 
   function getQuestionSetId() {
     let path = window.location.pathname;
@@ -129,7 +167,7 @@ $(document).ready(function() {
       setClickEvt();
   }
 
-  function addMultichoiceOption() {
+  function addOption(questionType) {
     let childrenLen = $("#answer-options").children().length;
     if(childrenLen == 5)
       return;
@@ -144,17 +182,19 @@ $(document).ready(function() {
     newOption.appendTo("#answer-options");
     let deleteButton = newOption.find("#btn-delete-col").find("#btn-delete-option");
     deleteButton.on("click", function() {
-      deleteMultichoiceOption($(this).parent().parent());
+      deleteOption($(this).parent().parent());
     });
-    let checkbox = newOption.find(".form-check").find(".form-check-input");
-    checkbox.prop('id', "checkbox-"+newId);
-    checkbox.prop('checked', false);
-    checkbox.change(function() {
-      clearCheckboxes($(this));
-    });
+    if(questionType === "multichoice") {
+      let checkbox = newOption.find(".form-check").find(".form-check-input");
+      checkbox.prop('id', "checkbox-"+newId);
+      checkbox.prop('checked', false);
+      checkbox.change(function() {
+        clearCheckboxes($(this));
+      });
+    }
   }
 
-  function deleteMultichoiceOption(option) {
+  function deleteOption(option) {
     if($("#answer-options").children().length <= 1)
       return;
     option.remove();

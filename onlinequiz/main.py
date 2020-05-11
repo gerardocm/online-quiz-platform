@@ -1,7 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from onlinequiz.forms import QuestionSetForm, QuestionForm
-from onlinequiz.models import QuestionSet, ManualQuestion, MultichoiceQuestion, MultichoiceOption
+from onlinequiz.models import (
+  QuestionSet,
+  ManualQuestion,
+  MultichoiceQuestion,
+  MultichoiceOption,
+  VotingQuestion,
+  VotingOption
+)
 from onlinequiz import db
 from sqlalchemy.exc import IntegrityError
 from flask import jsonify
@@ -179,6 +186,46 @@ def voting_question(set_id):
 
   form = QuestionForm(question_set=question_set.id)
   return render_template('forms/voting-question.html', form=form)
+
+@main.route('/create-question-set/<int:set_id>/voting-question', methods=['POST'])
+@login_required
+def voting_question_post(set_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  question = request.form.get('question')
+  options = json.loads(request.form.get('options').replace("'", "\""))
+  form = QuestionForm(question=question)
+  if not question:
+    raise InvalidUsage('There was an error while creating the quiz set.')
+  for option in options:
+    if not option['option']:
+      raise InvalidUsage('There was an error while creating the quiz set.')
+
+  try:
+    new_question = VotingQuestion(
+      question=question,
+      question_set=set_id
+    )
+    db.session.add(new_question)
+    db.session.commit()
+    for option in options:
+      new_option = VotingOption(
+        option=option['option'],
+        voting_question=new_question.id
+      )
+      db.session.add(new_option)
+      db.session.commit()
+  except:
+    raise InvalidUsage('There was an error while creating the quiz set.')
+
+  response = jsonify({
+    'id': new_question.id,
+    'question': new_question.question
+  })
+  response.status_code = 200
+  return response
 
 class InvalidUsage(Exception):
     status_code = 400
