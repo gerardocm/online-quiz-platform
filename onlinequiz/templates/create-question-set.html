@@ -5,7 +5,6 @@
 {% endblock head%}
 
 {% block main %}
-
   <div class="content-questionset">
     <h1 class="text-center my-4">Create Question Set</h1>
     {% with messages = get_flashed_messages() %}
@@ -15,69 +14,85 @@
         </div>
       {% endif %}
     {% endwith %}
-    <div class="alert alert-danger" role="alert" id="question-set-error">
-      An error occurred while updating. Please try again.
-    </div>
-    <div class="alert alert-success" role="alert" id="question-set-success">
-      Question set updated
-    </div>
-    <form method="POST" action="" id="question-set-form">
-      {{ form.hidden_tag() }}
-      <div class="form-group">
-        {{ form.name.label(class="form-control-label") }}
-        {% if form.name.errors %}
-          {{ form.name(class="form-control form-control-lg is-invalid") }}
-          <div class="invalid-feedback">
-            {% for error in form.name.errors %}
-              <span>{{ error }}</span>
-            {% endfor %}
+
+    <div class="card w-100">
+      <div class="card-body">
+        <div class="alert alert-danger" role="alert" id="question-set-error">
+          An error occurred while updating. Please try again.
+        </div>
+        <div class="alert alert-success" role="alert" id="question-set-success">
+          Question set updated
+        </div>
+        <form method="POST" action="" id="question-set-form">
+          {{ form.hidden_tag() }}
+          <div class="form-group">
+            {{ form.name.label(class="form-control-label") }}
+            {% if form.name.errors %}
+              {{ form.name(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                {% for error in form.name.errors %}
+                  <span>{{ error }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              {{ form.name(class="form-control form-control-lg") }}
+            {% endif %}
           </div>
-        {% else %}
-          {{ form.name(class="form-control form-control-lg") }}
-        {% endif %}
+          <div class="form-check my-4">
+            {{ form.is_public(class="form-check-input") }}
+            {{ form.is_public.label(class="form-check-label") }}
+          </div>
+          <div class="form-group d-flex" id="question-set-submit">
+            {{ form.submit(class="btn btn-outline-primary ml-auto") }}
+          </div>
+        </form>
       </div>
-      <div class="form-check my-4">
-        {{ form.is_public(class="form-check-input") }}
-        {{ form.is_public.label(class="form-check-label") }}
-      </div>
-      <div class="form-group d-flex" id="question-set-submit">
-        {{ form.submit(class="btn btn-outline-info ml-auto") }}
-      </div>
-    </form>
+    </div>
     {% if set_id %}
       <div class="m-4">
         User will be listed here
       </div>
       
       <div class="my-4">
-        <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
-          <label class="btn btn-primary w-100">
-            <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
-            <i class="fas fa-plus"></i> Multichoice
-          </label>
-          <label class="btn btn-primary w-100">
-            <input type="radio" name="add-manual" id="add-manual" autocomplete="off" checked>
-            <i class="fas fa-plus"></i> Manual
-          </label>
-          <label class="btn btn-primary w-100" id="add-manual">
-            <input type="radio" name="add-voting" id="add-voting" autocomplete="off" checked>
-            <i class="fas fa-plus"></i> Community Voting
-          </label>
+        <div class="card w-100">
+          <div class="card-header text-center">
+            <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+              <label class="btn btn-primary w-100">
+                <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
+                <i class="fas fa-plus"></i> Multichoice
+              </label>
+              <label class="btn btn-primary w-100">
+                <input type="radio" name="add-manual" id="add-manual" autocomplete="off" checked>
+                <i class="fas fa-plus"></i> Manual
+              </label>
+              <label class="btn btn-primary w-100" id="add-manual">
+                <input type="radio" name="add-voting" id="add-voting" autocomplete="off" checked>
+                <i class="fas fa-plus"></i> Community Voting
+              </label>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="my-4" id="create-question-form"></div>
+          </div>
         </div>
       </div>
-      <div class="my-4" id="create-question-form"></div>
       <div class="my-4" id="manual-questions">
         <div class="card w-100">
-          <div class="card-header">
+          <!-- <div class="card-header">
             Manual questions
+          </div> -->
+          <div class="card-body">
+            <h5 class="card-title">Manual questions</h5>
           </div>
-          <ul class="list-group list-group-flush" id="manual-question-list">
-            {% for question in questions.manual_questions %}
-              <li class="list-group-item list-group-item-action">
-                {{loop.index}} - {{question.question}}
-              </li>
-            {% endfor %}
-          </ul>
+          <div class="card-body p-1">
+            <ul class="list-group list-group-flush" id="manual-question-list">
+              {% for question in questions.manual_questions %}
+                <li class="list-group-item list-group-item-action list-group-item-light">
+                  {{loop.index}} - {{question.question}}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
       <div class="my-4" id="multichoice-questions">
@@ -87,22 +102,25 @@
           </div>
           <div class="card-body">
             {% for question in questions.multichoice_questions %}
-              <div class="card w-auto m-2">
+              <div class="card w-auto m-3">
                 <div class="card-header">
                   Question {{loop.index}}: {{question.question}}
                 </div>
-                <ul class="list-group list-group-flush" id="manual-question-list">
-                  {% for option in question.options %}
-                    <li class="list-group-item list-group-item-light">
-                      {{loop.index}} - {{option.option}} 
-                      {% if option.is_correct %}
-                        <i class="fas fa-check-circle"></i>
-                      {% else %}
-                        <i class="fas fa-times-circle"></i>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
+                <div class="card-body p-1">
+                  <ul class="list-group list-group-flush" id="manual-question-list">
+                    {% for option in question.options %}
+                        <li class="list-group-item list-group-item-action list-group-item-light">
+                          <!-- <li class="list-group-item list-group-item-light"> -->
+                        {{loop.index}} - {{option.option}} 
+                        {% if option.is_correct %}
+                          <i class="fas fa-check-circle icon-correct"></i>
+                        {% else %}
+                          <i class="fas fa-times-circle icon-danger"></i>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
               </div>
             {% endfor %}
           </div>
@@ -115,17 +133,20 @@
           </div>
           <div class="card-body">
             {% for question in questions.voting_questions %}
-              <div class="card w-auto m-2">
+              <div class="card w-auto m-3">
                 <div class="card-header">
                   Question {{loop.index}}: {{question.question}}
                 </div>
-                <ul class="list-group list-group-flush" id="manual-question-list">
-                  {% for option in question.options %}
-                    <li class="list-group-item list-group-item-light">
-                      {{loop.index}} - {{option.option}}
-                    </li>
-                  {% endfor %}
-                </ul>
+                <div class="card-body p-1">
+                  <ul class="list-group list-group-flush" id="manual-question-list">
+                    {% for option in question.options %}
+                      <li class="list-group-item list-group-item-action list-group-item-light">
+                          <!-- <li class="list-group-item list-group-item-light"> -->
+                        {{loop.index}} - {{option.option}}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
               </div>
             {% endfor %}
           </div>

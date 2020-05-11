@@ -5,6 +5,7 @@ $(document).ready(function() {
   $("#question-set-success").hide();
   getQuestionSetId();
   changeBtnSubmitLabel();
+  $("body").addClass("bkg-primary-light");
 
   function submitUpdateQuestionSet() {
     const url = "/create-question-set/" + questionSetId;
