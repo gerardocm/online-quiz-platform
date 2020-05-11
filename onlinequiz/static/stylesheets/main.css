@@ -4,8 +4,12 @@
   min-height: 100vh !important;
 }
 
-.form-control {
-  border-radius: 0;
+* {
+  font-family: 'Comfortaa', cursive;
+}
+
+.bkg-primary-light {
+  background-color: #fdfaff;
 }
 
 .content-auth > .row > .bkg {
@@ -24,7 +28,7 @@
 }
 
 .side-form > .alert-danger {
-  border-radius: 0px;
+  border-radius: 6px;
   margin: 24px auto;
 }
 
@@ -36,3 +40,12 @@
 .icon-danger {
   color: red !important;
 }
+
+.icon-correct {
+  color: rgb(40, 163, 40);
+}
+
+.col-form-label {
+  color: var(--theme-dark-primary) !important;
+}
+
