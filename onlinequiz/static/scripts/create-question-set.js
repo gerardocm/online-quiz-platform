@@ -1,8 +1,24 @@
 $(document).ready(function() {
   let questionSetId;
   let questionOptionCount;
+  $("#question-set-error").hide();
+  $("#question-set-success").hide();
   getQuestionSetId();
   changeBtnSubmitLabel();
+
+  function submitUpdateQuestionSet() {
+    const url = "/create-question-set/" + questionSetId;
+    let formData = $("#question-set-form").serializeArray();
+    $.post(url, formData, (success) => {
+      $("#question-set-success").show();
+      setTimeout(() => {
+        $("#question-set-success").hide();
+      }, 2000);
+    })
+    .fail(() => {
+        $("#question-set-error").hide();
+    });
+  }
 
   function getManualForm() {
     const url = "/create-question-set/" + questionSetId + "/manual-question";
@@ -210,8 +226,14 @@ $(document).ready(function() {
   }
 
   function changeBtnSubmitLabel() {
-    if(questionSetId)
-      $("#question-set-submit > #submit").prop('value', 'Update');
+    if(!questionSetId)
+      return;
+      
+    $("#question-set-submit > #submit").prop('value', 'Update');
+    $("#question-set-form").on('submit', (evt) => {
+      evt.preventDefault();
+      submitUpdateQuestionSet();
+    });
   }
 
   function setClickEvt() {

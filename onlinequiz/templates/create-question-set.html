@@ -15,7 +15,13 @@
         </div>
       {% endif %}
     {% endwith %}
-    <form method="POST" action="">
+    <div class="alert alert-danger" role="alert" id="question-set-error">
+      An error occurred while updating. Please try again.
+    </div>
+    <div class="alert alert-success" role="alert" id="question-set-success">
+      Question set updated
+    </div>
+    <form method="POST" action="" id="question-set-form">
       {{ form.hidden_tag() }}
       <div class="form-group">
         {{ form.name.label(class="form-control-label") }}

@@ -80,11 +80,27 @@ def question_set_update(set_id):
 @main.route('/create-question-set/<int:set_id>', methods=['POST'])
 @login_required
 def question_set_update_post(set_id):
+
   form = QuestionSetForm()
   question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
-  return render_template('create-question-set.html', title='Create a new quiz set', form=form, set_id=set_id)
+
+  try:
+    name = request.form.get('name')
+    is_public = True if request.form.get('is_public') is not None else False
+    question_set.name = name
+    question_set.is_public = is_public
+    db.session.commit()
+  except:
+    raise InvalidUsage('There was an error while updating the set.')
+
+  response = jsonify({
+    'id': question_set.id,
+    'name': question_set.name
+  })
+  response.status_code = 200
+  return response
 
 @main.route('/create-question-set/<int:set_id>/multichoice-question')
 @login_required
