@@ -1,3 +1,5 @@
+@import url("variables.css");
+
 .container {
   min-height: 100vh !important;
 }
@@ -7,7 +9,7 @@
 }
 
 .content-auth > .row > .bkg {
-  background-color: steelblue;
+  background-color: var(--theme-primary);
 }
 
 .content-auth > .row {
