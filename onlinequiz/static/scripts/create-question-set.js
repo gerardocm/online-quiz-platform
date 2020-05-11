@@ -49,6 +49,7 @@ $(document).ready(function() {
       setTimeout(() => {
         $("#alert-question-success").hide();
         $("#create-question-form").empty();
+        location.reload();
       }, 2000);
     })
     .fail(() => {
@@ -96,6 +97,7 @@ $(document).ready(function() {
       setTimeout(() => {
         $("#alert-question-success").hide();
         $("#create-question-form").empty();
+        location.reload();
       }, 2000);
     })
     .fail(() => {
@@ -140,6 +142,7 @@ $(document).ready(function() {
       setTimeout(() => {
         $("#alert-question-success").hide();
         $("#create-question-form").empty();
+        location.reload();
       }, 2000);
     })
     .fail(() => {
