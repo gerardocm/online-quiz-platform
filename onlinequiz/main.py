@@ -75,7 +75,28 @@ def question_set_update(set_id):
     name=question_set.name,
     is_public=question_set.is_public
   )
-  return render_template('create-question-set.html', title='Create a new quiz set', form=form, set_id=set_id)
+  questions = __get_full_question_set(set_id)
+  return render_template('create-question-set.html', form=form, set_id=set_id, questions=questions)
+
+def __get_full_question_set(set_id):
+  multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=set_id).all()
+  manual_questions = ManualQuestion.query.filter_by(question_set=set_id).all()
+  voting_questions = VotingQuestion.query.filter_by(question_set=set_id).all()
+  for question in multichoice_questions:
+    question.options = MultichoiceOption.query.filter_by(multichoice_question=question.id).all()
+  for question in voting_questions:
+    question.options = VotingOption.query.filter_by(voting_question=question.id).all()
+
+  print(multichoice_question)
+  print(manual_question)
+  print(voting_question)
+
+  return {
+    "multichoice_questions": multichoice_questions,
+    "manual_questions": manual_questions,
+    "voting_questions": voting_questions
+  }
+
 
 @main.route('/create-question-set/<int:set_id>', methods=['POST'])
 @login_required
