@@ -48,11 +48,8 @@
         </form>
       </div>
     </div>
+
     {% if set_id %}
-      <div class="m-4">
-        User will be listed here
-      </div>
-      
       <div class="my-4">
         <div class="card w-100">
           <div class="card-header text-center">
@@ -78,17 +75,24 @@
       </div>
       <div class="my-4" id="manual-questions">
         <div class="card w-100">
-          <!-- <div class="card-header">
-            Manual questions
-          </div> -->
           <div class="card-body">
             <h5 class="card-title">Manual questions</h5>
           </div>
           <div class="card-body p-1">
-            <ul class="list-group list-group-flush" id="manual-question-list">
+            <ul class="list-group list-group-flush mx-4" id="manual-question-list">
               {% for question in questions.manual_questions %}
-                <li class="list-group-item list-group-item-action list-group-item-light">
-                  {{loop.index}} - {{question.question}}
+                <li class="list-group-item list-group-item-action list-group-item-light" id="{{question.id}}">
+                  <div class="row" >
+                    <div class="col-sm-11">
+                      {{loop.index}} - {{question.question}}
+                    </div>
+                    <div class="col-sm-1">
+                      <button type="button" class="btn btn-outline-danger" id="btn-delete-question"
+                        onclick="deleteManualQuestion({{question.id}})">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
                 </li>
               {% endfor %}
             </ul>
@@ -100,11 +104,21 @@
           <div class="card-body">
             <h5 class="card-title">Multichoice questions</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="multichoice-question-list">
             {% for question in questions.multichoice_questions %}
-              <div class="card w-auto m-3">
+              <div class="card w-auto m-3" id="{{question.id}}">
                 <div class="card-header">
-                  Question {{loop.index}}: {{question.question}}
+                  <div class="row">
+                    <div class="col-sm-11">
+                      Question {{loop.index}}: {{question.question}}
+                    </div>
+                    <div class="col-sm-1">
+                      <button type="button" class="btn btn-outline-danger" id="btn-delete-question"
+                        onclick="deleteMultichoiceQuestion({{question.id}})">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body p-1">
                   <ul class="list-group list-group-flush" id="manual-question-list">
@@ -131,11 +145,21 @@
           <div class="card-body">
             <h5 class="card-title">Voting questions</h5>
           </div>
-          <div class="card-body">
+          <div class="card-body" id="voting-question-list">
             {% for question in questions.voting_questions %}
-              <div class="card w-auto m-3">
+              <div class="card w-auto m-3" id="{{question.id}}">
                 <div class="card-header">
-                  Question {{loop.index}}: {{question.question}}
+                  <div class="row">
+                    <div class="col-sm-11">
+                      Question {{loop.index}}: {{question.question}} ({{question.id}})
+                    </div>
+                    <div class="col-sm-1">
+                      <button type="button" class="btn btn-outline-danger" id="btn-delete-question"
+                        onclick="deleteVotingQuestion({{question.id}})">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div class="card-body p-1">
                   <ul class="list-group list-group-flush" id="manual-question-list">

@@ -87,10 +87,6 @@ def __get_full_question_set(set_id):
   for question in voting_questions:
     question.options = VotingOption.query.filter_by(voting_question=question.id).all()
 
-  print(multichoice_question)
-  print(manual_question)
-  print(voting_question)
-
   return {
     "multichoice_questions": multichoice_questions,
     "manual_questions": manual_questions,
@@ -175,6 +171,28 @@ def multichoice_question_post(set_id):
   response.status_code = 200
   return response
 
+@main.route('/create-question-set/<int:set_id>/multichoice-question/<int:question_id>', methods=['DELETE'])
+@login_required
+def multichoice_question_delete(set_id, question_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  question = MultichoiceQuestion.query.filter_by(id=question_id).first()
+  if question is None:
+    raise InvalidUsage('Multichoice question not found.', status_code=500)
+
+  options = MultichoiceOption.query.filter_by(multichoice_question=question.id).all()
+  for option in options:
+    db.session.delete(option)
+    db.session.commit()
+  
+  db.session.delete(question)
+  db.session.commit()
+  response = jsonify({})
+  response.status_code = 200
+  return response
+
 @main.route('/create-question-set/<int:set_id>/manual-question')
 @login_required
 def manual_question(set_id):
@@ -213,6 +231,24 @@ def manual_question_post(set_id):
   })
   response.status_code = 200
   return response
+
+@main.route('/create-question-set/<int:set_id>/manual-question/<int:question_id>', methods=['DELETE'])
+@login_required
+def manual_question_delete(set_id, question_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  question = ManualQuestion.query.filter_by(id=question_id).first()
+  if question is None:
+    raise InvalidUsage('Manual question not found.', status_code=500)
+  
+  db.session.delete(question)
+  db.session.commit()
+  response = jsonify({})
+  response.status_code = 200
+  return response
+
 
 @main.route('/create-question-set/<int:set_id>/voting-question')
 @login_required
@@ -261,6 +297,28 @@ def voting_question_post(set_id):
     'id': new_question.id,
     'question': new_question.question
   })
+  response.status_code = 200
+  return response
+
+@main.route('/create-question-set/<int:set_id>/voting-question/<int:question_id>', methods=['DELETE'])
+@login_required
+def voting_question_delete(set_id, question_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  question = VotingQuestion.query.filter_by(id=question_id).first()
+  if question is None:
+    raise InvalidUsage('Voting question not found.', status_code=500)
+
+  options = VotingOption.query.filter_by(voting_question=question.id).all()
+  for option in options:
+    db.session.delete(option)
+    db.session.commit()
+  
+  db.session.delete(question)
+  db.session.commit()
+  response = jsonify({})
   response.status_code = 200
   return response
 

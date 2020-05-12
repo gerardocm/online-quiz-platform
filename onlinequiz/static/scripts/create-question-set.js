@@ -1,3 +1,7 @@
+let deleteQuestion;
+let deleteMultichoiceQuestion;
+let deleteVotingQuestion;
+
 $(document).ready(function() {
   let questionSetId;
   let questionOptionCount;
@@ -238,6 +242,52 @@ $(document).ready(function() {
       evt.preventDefault();
       submitUpdateQuestionSet();
     });
+  }
+
+  // function called directly in the html 
+  deleteManualQuestion = function (questionId) {
+    $.ajax({
+      url: '/create-question-set/'+ questionSetId +'/manual-question/' + questionId,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: function() {
+        $("#manual-question-list > #" + questionId).remove();
+      },
+      error: function(request,msg,error) {
+        console.error(error);
+      }
+   });
+  }
+
+  // function called directly in the html 
+  deleteMultichoiceQuestion = function (questionId) {
+    $.ajax({
+      url: '/create-question-set/'+ questionSetId +'/multichoice-question/' + questionId,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: function() {
+        $("#multichoice-question-list > #" + questionId).remove();
+      },
+      error: function(request,msg,error) {
+          // handle failure
+          console.error(error);
+      }
+   });
+  }
+
+  // function called directly in the html 
+  deleteVotingQuestion = function (questionId) {
+    $.ajax({
+      url: '/create-question-set/'+ questionSetId +'/voting-question/' + questionId,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: function() {
+        $("#voting-question-list > #" + questionId).remove();
+      },
+      error: function(request,msg,error) {
+        console.error(error);
+      }
+   });
   }
 
   function setClickEvt() {
