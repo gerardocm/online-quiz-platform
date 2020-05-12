@@ -93,7 +93,6 @@ def __get_full_question_set(set_id):
     "voting_questions": voting_questions
   }
 
-
 @main.route('/create-question-set/<int:set_id>', methods=['POST'])
 @login_required
 def question_set_update_post(set_id):
@@ -115,6 +114,26 @@ def question_set_update_post(set_id):
   response = jsonify({
     'id': question_set.id,
     'name': question_set.name
+  })
+  response.status_code = 200
+  return response
+
+@main.route('/create-question-set/<int:set_id>/submit', methods=['PUT'])
+@login_required
+def question_set_submit(set_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  try:
+    question_set.submitted = True
+    db.session.commit()
+  except:
+    raise InvalidUsage('There was an error while updating the set.')
+
+  response = jsonify({
+    'id': question_set.id,
+    'submitted': question_set.submitted
   })
   response.status_code = 200
   return response

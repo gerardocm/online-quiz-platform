@@ -44,6 +44,7 @@
           </div>
           <div class="form-group d-flex" id="question-set-submit">
             {{ form.submit(class="btn btn-outline-primary ml-auto") }}
+            <button type="button" class="btn btn-primary ml-4" onclick="submitQuestionSet()">Submit Question Set</button>
           </div>
         </form>
       </div>
@@ -178,6 +179,5 @@
       </div>
     {% endif %}
   </div>
-
 <!-- <script type="text/javascript" src="{{url_for('static', filename='scripts/create-question-set.js')}}"></script> -->
 {% endblock %}

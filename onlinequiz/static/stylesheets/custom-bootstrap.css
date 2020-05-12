@@ -53,7 +53,7 @@ button.bg-primary:focus {
   border-color: var(--theme-primary);
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:focus {
   color: #fff;
   background-color: #48178a;
   border-color: #42157d;
@@ -161,8 +161,8 @@ a.text-primary:hover, a.text-primary:focus {
 - COLOR success
 ------------------------------------*/
 .alert-success {
-  color: #00a0c1;
-  background-color: #108100ff;
+  color: #051960;
+  background-color: var(--theme-success);
   border-color: #f4fdff;
 }
 

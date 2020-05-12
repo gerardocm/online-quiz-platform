@@ -1,6 +1,7 @@
 let deleteQuestion;
 let deleteMultichoiceQuestion;
 let deleteVotingQuestion;
+let submitQuestionSet;
 
 $(document).ready(function() {
   let questionSetId;
@@ -23,6 +24,21 @@ $(document).ready(function() {
     .fail(() => {
         $("#question-set-error").hide();
     });
+  }
+
+  submitQuestionSet = function() {
+    console.log('submit :>> ');
+    $.ajax({
+      url: '/create-question-set/' + questionSetId + '/submit',
+      method: 'PUT',
+      contentType: 'application/json',
+      success: function() {
+        $("#question-set-success").show();
+      },
+      error: function(request,msg,error) {
+        $("#question-set-error").hide();
+      }
+   });
   }
 
   function getManualForm() {
