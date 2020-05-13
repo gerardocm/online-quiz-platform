@@ -16,9 +16,13 @@ def create_app():
   from .auth import auth as auth_blueprint
   app.register_blueprint(auth_blueprint)
 
-  # blueprint for non-auth parts of app
+  # blueprint for auth routes in our app
   from .main import main as main_blueprint
   app.register_blueprint(main_blueprint)
+
+  # blueprint for  parts of app
+  from .create_question_set import create_question_set as create_question_set_blueprint
+  app.register_blueprint(create_question_set_blueprint)
 
   login_manager = LoginManager()
   login_manager.login_view = 'auth.login'
