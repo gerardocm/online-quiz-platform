@@ -135,7 +135,6 @@
                   <ul class="list-group list-group-flush" id="manual-question-list">
                     {% for option in question.options %}
                         <li class="list-group-item list-group-item-action list-group-item-light">
-                          <!-- <li class="list-group-item list-group-item-light"> -->
                         {{loop.index}} - {{option.option}} 
                         {% if option.is_correct %}
                           <i class="fas fa-check-circle icon-correct"></i>
@@ -178,7 +177,6 @@
                   <ul class="list-group list-group-flush" id="manual-question-list">
                     {% for option in question.options %}
                       <li class="list-group-item list-group-item-action list-group-item-light">
-                          <!-- <li class="list-group-item list-group-item-light"> -->
                         {{loop.index}} - {{option.option}}
                       </li>
                     {% endfor %}
@@ -191,5 +189,4 @@
       </div>
     {% endif %}
   </div>
-<!-- <script type="text/javascript" src="{{url_for('static', filename='scripts/create-question-set.js')}}"></script> -->
 {% endblock %}
