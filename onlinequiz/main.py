@@ -18,17 +18,25 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-  return render_template('index.html')
+  return render_template(
+    'index.html',
+    cuser=current_user
+  )
 
 @main.route('/not-authorized')
 def not_auth():
-  return render_template('not-authorized.html')
+  return render_template(
+    'not-authorized.html',
+    cuser=current_user
+  )
 
 @main.route('/quizzes')
 @login_required
 def quizzes():
-  full_name = current_user.first_name + current_user.last_name
-  return render_template('quizzes.html', full_name=full_name)
+  return render_template(
+    'quizzes.html',
+    cuser=current_user
+  )
 
 class InvalidUsage(Exception):
     status_code = 400

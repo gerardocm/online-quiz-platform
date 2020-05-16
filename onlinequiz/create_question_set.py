@@ -20,7 +20,11 @@ create_question_set = Blueprint('@create_question_set', __name__)
 @login_required
 def question_set():
   form = QuestionSetForm()
-  return render_template('create-question-set.html', title='Create a new quiz set', form=form)
+  return render_template(
+    'create-question-set.html',
+    form=form,
+    cuser=current_user
+  )
 
 @create_question_set.route('/create-question-set', methods=['POST'])
 @login_required
@@ -31,7 +35,11 @@ def question_set_post():
   form = QuestionSetForm()
   if not form.validate_on_submit():
     flash('There was an error while creating the question set.')
-    return render_template('create-question-set.html', title='Create a new quiz set', form=form)
+    return render_template(
+      'create-question-set.html',
+      form=form,
+      cuser=current_user
+    )
 
   try:
     new_question_set = QuestionSet(
@@ -41,10 +49,13 @@ def question_set_post():
     )
     db.session.add(new_question_set)
     db.session.commit()
-    print(new_question_set.id)
   except IntegrityError:
     flash('There was an error while saving your question set')
-    return render_template('create-question-set.html', title='Create a new quiz set', form=form)
+    return render_template(
+      'create-question-set.html',
+      form=form,
+      cuser=current_user
+    )
 
   return redirect(url_for('main.question_set_update',set_id=new_question_set.id))
 
@@ -61,7 +72,13 @@ def question_set_update(set_id):
     is_public=question_set.is_public
   )
   questions = __get_full_question_set(set_id)
-  return render_template('create-question-set.html', form=form, set_id=set_id, questions=questions)
+  return render_template(
+    'create-question-set.html',
+    form=form,
+    set_id=set_id,
+    questions=questions,
+    cuser=current_user
+  )
 
 def __get_full_question_set(set_id):
   multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=set_id).all()

@@ -8,6 +8,12 @@
   font-family: 'Comfortaa', cursive;
 }
 
+main {
+  position: relative;
+  top: 77px;
+  padding-top: 24px;
+}
+
 .bkg-primary-light {
   background-color: #fdfaff;
 }
@@ -49,3 +55,33 @@
   color: var(--theme-dark-primary) !important;
 }
 
+
+/* The following stylings are for the navBar.html file */
+
+.main-menubox {
+  display: none;
+}
+
+.main-menu:hover .main-menubox{
+  display: block;
+}
+
+.navbar {
+  background-color: var(--theme-primary);
+  color: white;
+  font-weight: 500;
+}
+
+.nav-link {
+  color: white;
+  font-weight: bolder;
+}
+
+.navbar-brand > img {
+  max-width: 48px;
+  max-height: 48px;
+}
+
+li.nav-item{
+  padding: 10px 20px;
+}

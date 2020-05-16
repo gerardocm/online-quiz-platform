@@ -15,7 +15,12 @@ def signup():
     return redirect(url_for('main.home'))
 
   form = SignUpForm()
-  return render_template('signup.html', title='Sign up', form=form)
+  return render_template(
+    'signup.html', 
+    title='Sign up',
+    form=form,
+    cuser=None
+  )
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
@@ -32,12 +37,22 @@ def signup_post():
       db.session.commit()
     except IntegrityError:
       flash('Email address already exists')
-      return render_template('signup.html', title='Sign up', form=form)
+      return render_template(
+        'signup.html',
+        title='Sign up',
+        form=form,
+        cuser=None
+      )
 
     user = User.query.filter_by(email=new_user.email).first()
     login_user(user, remember=True)
     return redirect(url_for('main.quizzes'))
-  return render_template('signup.html', title='Sign up', form=form)
+  return render_template(
+    'signup.html',
+    title='Sign up',
+    form=form,
+    cuser=None
+  )
   
 
 @auth.route('/login')
@@ -46,7 +61,12 @@ def login():
     return redirect(url_for('main.home'))
   
   form = LoginForm()
-  return render_template('login.html', title='Log in', form=form)
+  return render_template(
+    'login.html',
+    title='Log in',
+    form=form,
+    cuser=None
+  )
 
 @auth.route('/login', methods=['POST'])
 def login_post():
@@ -57,7 +77,12 @@ def login_post():
     if not user or not check_password_hash(user.password, password):
         flash('Please check your login details and try again.')
         form = LoginForm()
-        return render_template('login.html', title='Log in', form=form)
+        return render_template(
+          'login.html',
+          title='Log in',
+          form=form,
+          cuser=None
+        )
 
     login_user(user, remember=True)
     return redirect(url_for('main.quizzes'))
