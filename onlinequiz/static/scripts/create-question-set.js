@@ -192,7 +192,7 @@ $(document).ready(function() {
         }));
       }
     });
-    console.log('options.value :>> ', options.value);
+
     options.value = "["+options.value.toString()+"]";
     return options;
   }
@@ -200,9 +200,13 @@ $(document).ready(function() {
   function getQuestionSetId() {
     let path = window.location.pathname;
     pathArray = path.split("/");
-    if(pathArray.length <= 0) 
+
+    if(pathArray.length <= 2) 
       return;
+
+    
     questionSetId = pathArray[pathArray.length-1];
+
     if(questionSetId)
       setClickEvt();
   }
@@ -224,6 +228,7 @@ $(document).ready(function() {
     deleteButton.on("click", function() {
       deleteOption($(this).parent().parent());
     });
+
     if(questionType === "multichoice") {
       let checkbox = newOption.find(".form-check").find(".form-check-input");
       checkbox.prop('id', "checkbox-"+newId);
@@ -250,10 +255,14 @@ $(document).ready(function() {
   }
 
   function changeBtnSubmitLabel() {
-    if(!questionSetId)
+    console.log('questionSetId :>> ', questionSetId);
+    if(!questionSetId) {
+      $('#btn-submit-quiz').hide();
       return;
+    }
       
     $("#question-set-submit > #submit").prop('value', 'Update');
+
     $("#question-set-form").on('submit', (evt) => {
       evt.preventDefault();
       submitUpdateQuestionSet();

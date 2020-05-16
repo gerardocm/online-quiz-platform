@@ -14,7 +14,7 @@ from sqlalchemy.exc import IntegrityError
 from flask import jsonify
 import json
 
-create_question_set = Blueprint('@create_question_set', __name__)
+create_question_set = Blueprint('create_question_set', __name__)
 
 @create_question_set.route('/create-question-set')
 @login_required
@@ -57,7 +57,7 @@ def question_set_post():
       cuser=current_user
     )
 
-  return redirect(url_for('main.question_set_update',set_id=new_question_set.id))
+  return redirect(url_for('create_question_set.question_set_update',set_id=new_question_set.id))
 
 
 @create_question_set.route('/create-question-set/<int:set_id>')

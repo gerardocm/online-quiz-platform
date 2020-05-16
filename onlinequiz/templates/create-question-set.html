@@ -44,13 +44,19 @@
           </div>
           <div class="form-group d-flex" id="question-set-submit">
             {{ form.submit(class="btn btn-outline-primary ml-auto") }}
-            <button type="button" class="btn btn-primary ml-4" onclick="submitQuestionSet()">Submit Question Set</button>
+            <button type="button" 
+              id="btn-submit-quiz"
+              class="btn btn-primary ml-4" 
+              onclick="submitQuestionSet()">
+              Submit Quiz
+            </button>
           </div>
         </form>
       </div>
     </div>
 
     {% if set_id %}
+      <!-- Add questions section -->
       <div class="my-4">
         <div class="card w-100">
           <div class="card-header text-center">
@@ -74,12 +80,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Manual questions created -->
       <div class="my-4" id="manual-questions">
         <div class="card w-100">
           <div class="card-body">
             <h5 class="card-title">Manual questions</h5>
           </div>
-          <div class="card-body p-1">
+          <div class="card-body px-1">
             <ul class="list-group list-group-flush mx-4" id="manual-question-list">
               {% for question in questions.manual_questions %}
                 <li class="list-group-item list-group-item-action list-group-item-light" id="{{question.id}}">
@@ -100,6 +108,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Multichoice questions -->
       <div class="my-4" id="multichoice-questions">
         <div class="card w-100">
           <div class="card-body">
@@ -141,6 +151,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Voting questions -->
       <div class="my-4" id="voting-questions">
         <div class="card w-100">
           <div class="card-body">

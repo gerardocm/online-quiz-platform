@@ -19,7 +19,7 @@
                     <a class="nav-link" href="#">Take a Quiz!</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('@create_question_set.question_set')}}">Create a Quiz!</a>
+                    <a class="nav-link" href="{{url_for('create_question_set.question_set')}}">Create a Quiz!</a>
                 </li>
                 {% if cuser and cuser.is_authenticated %}
                     <li class="nav-item">
