@@ -3,7 +3,8 @@
 
   <div class="content-auth">
     <div class="row">
-      <div class="col-md-6 bkg">
+      <div class="col-md-6 brand">
+        <img src="{{ url_for('static', filename='/img/quizard.svg') }}">
       </div>
       <div class="col-md-6 mx-auto mt-4">
         <div class="side-form">
@@ -85,15 +86,19 @@
               </div>
             </fieldset>
             <div class="form-group">
-              {{ form.submit(class="btn btn-outline-success") }}
+              {{ form.submit(class="btn btn-outline-success ml-auto mr-0 d-flex") }}
             </div>
           </form>
           <div class="border-top pt-3">
-            <small>Do you have an account? <a class="ml-2" href="{{url_for('auth.login')}}">Log in</a></small>
+            <small class="text-center">
+              Do you have an account? 
+              <a class="ml-2" href="{{url_for('auth.login')}}">
+                Log in
+              </a>
+            </small>
           </div>  
         </div>
       </div>
     </div>
   </div>
-
 {% endblock %}

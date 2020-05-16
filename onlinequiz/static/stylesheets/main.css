@@ -14,15 +14,22 @@ main {
   padding-top: 24px;
 }
 
+a {
+  color: var(--theme-success);
+}
+
 .bkg-primary-light {
   background-color: #fdfaff;
 }
 
-.content-auth > .row > .bkg {
-  background-color: var(--theme-primary);
+.content-auth > .row > .brand > img {
+  margin: 128px auto;
+  display: block;
+  min-width: 400px;
 }
 
 .content-auth > .row {
+  margin-top: -25px;
   min-height: 100vh;
   height: auto;
 }
