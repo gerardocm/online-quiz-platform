@@ -2,6 +2,9 @@ let deleteQuestion;
 let deleteMultichoiceQuestion;
 let deleteVotingQuestion;
 let submitQuestionSet;
+let getManualForm;
+let getMultichoiceForm;
+let getVotingForm;
 
 $(document).ready(function() {
   let questionSetId;
@@ -42,7 +45,8 @@ $(document).ready(function() {
    });
   }
 
-  function getManualForm() {
+  getManualForm = function() {
+    // function getManualForm() {
     const url = "/create-question-set/" + questionSetId + "/manual-question";
     $.get(url, function(data, status) {
       if(status == "success") {
@@ -79,7 +83,8 @@ $(document).ready(function() {
     });
   }
 
-  function getMultichoiceForm() {
+  getMultichoiceForm = function() {
+    // function getMultichoiceForm() {
     const url = "/create-question-set/" + questionSetId + "/multichoice-question";
     $.get(url, function(data, status){
       if(status == "success") {
@@ -127,8 +132,10 @@ $(document).ready(function() {
     });
   }
 
-  function getVotingForm() {
+  getVotingForm = function() {
+    // function getVotingForm() {
     const url = "/create-question-set/" + questionSetId + "/voting-question";
+    console.log('url :>> ', url);
     $.get(url, function(data, status){
       if(status == "success") {
         $("#create-question-form").empty();
@@ -208,8 +215,8 @@ $(document).ready(function() {
     
     questionSetId = pathArray[pathArray.length-1];
 
-    if(questionSetId)
-      setClickEvt();
+    // if(questionSetId)
+    //   setClickEvt();
   }
 
   function addOption(questionType) {
@@ -315,16 +322,16 @@ $(document).ready(function() {
    });
   }
 
-  function setClickEvt() {
-    $("#add-manual").on("click", () => {
-      getManualForm();
-    });
-    $("#add-multichoice").on("click", () => {
-      getMultichoiceForm();
-    });
-    $("#add-voting").on("click", () => {
-      getVotingForm();
-    });
-  }
+  // function setClickEvt() {
+  //   $("#add-manual").on("click", () => {
+  //     getManualForm();
+  //   });
+  //   $("#add-multichoice").on("click", () => {
+  //     getMultichoiceForm();
+  //   });
+  //   $("#add-voting").on("click", () => {
+  //     getVotingForm();
+  //   });
+  // }
   
 });

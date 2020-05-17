@@ -60,17 +60,23 @@
       <div class="my-4">
         <div class="card w-100">
           <div class="card-header text-center">
-            <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle w-100">
               <label class="btn btn-primary w-100">
-                <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
-                <i class="fas fa-plus"></i> Multichoice
-              </label>
-              <label class="btn btn-primary w-100">
-                <input type="radio" name="add-manual" id="add-manual" autocomplete="off" checked>
+                <input type="radio" name="add-manual" 
+                  id="add-manual" autocomplete="off"
+                  onclick="getManualForm()" checked>
                 <i class="fas fa-plus"></i> Manual
               </label>
+              <label class="btn btn-primary w-100">
+                <input type="radio" name="add-multichoice" 
+                  id="add-multichoice" autocomplete="off" 
+                  onclick="getMultichoiceForm()" checked>
+                <i class="fas fa-plus"></i> Multichoice
+              </label>
               <label class="btn btn-primary w-100" id="add-manual">
-                <input type="radio" name="add-voting" id="add-voting" autocomplete="off" checked>
+                <input type="radio" name="add-voting"
+                  id="add-voting" autocomplete="off"
+                  onclick="getVotingForm()" checked>
                 <i class="fas fa-plus"></i> Community Voting
               </label>
             </div>
