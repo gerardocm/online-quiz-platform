@@ -67,6 +67,9 @@ def question_set_update(set_id):
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
 
+  if question_set.submitted is True:
+    return redirect(url_for('admin_question_set.admin_question_set_get', set_id=set_id))
+
   form = QuestionSetForm(
     name=question_set.name,
     is_public=question_set.is_public
@@ -159,7 +162,6 @@ def multichoice_question_post(set_id):
 
   question = request.form.get('question')
   options = json.loads(request.form.get('options').replace("'", "\""))
-  print(question)
   form = QuestionForm(question=question)
   if not question:
     raise InvalidUsage('There was an error while creating the quiz set.')

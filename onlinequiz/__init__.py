@@ -12,17 +12,21 @@ def create_app():
 
   db.init_app(app)
 
-  # blueprint for auth routes in our app
+  # blueprint for auth routes in the app
   from .auth import auth as auth_blueprint
   app.register_blueprint(auth_blueprint)
 
-  # blueprint for auth routes in our app
+  # blueprint for auth routes in the app
   from .main import main as main_blueprint
   app.register_blueprint(main_blueprint)
 
-  # blueprint for  parts of app
+  # blueprint for create question set in the app
   from .create_question_set import create_question_set as create_question_set_blueprint
   app.register_blueprint(create_question_set_blueprint)
+
+  # blueprint for admin question set in the app
+  from .admin_question_set import admin_question_set as admin_question_set_blueprint
+  app.register_blueprint(admin_question_set_blueprint)
 
   login_manager = LoginManager()
   login_manager.login_view = 'auth.login'
