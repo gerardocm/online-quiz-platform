@@ -7,6 +7,7 @@ let markUser;
 $(document).ready(function() {
   let questionSetId;
   getQuestionSetId();
+  setQuestionSetDate();
   $("body").addClass("bkg-primary-light");
   $("#alert-error").hide();
   $("#alert-success").hide();
@@ -21,6 +22,14 @@ $(document).ready(function() {
       return;
 
     questionSetId = pathArray[pathArray.length-1];
+  }
+
+  function setQuestionSetDate() {
+
+    let rawDate = $('#date-created').text();
+    let date = new Date(rawDate);
+    console.log('date :>> ', date);
+    $('#date-created').text("Date created: " + date.toDateString());
   }
 
   displayUserForm = function() {
