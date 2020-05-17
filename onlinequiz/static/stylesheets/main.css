@@ -12,6 +12,7 @@ main {
   position: relative;
   top: 77px;
   padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 a {

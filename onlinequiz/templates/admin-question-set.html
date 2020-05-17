@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block head %}
+<!-- Local JS file added-->
+<script type="text/javascript" src="{{url_for('static', filename='scripts/admin-question-set.js')}}"></script>
+{% endblock head%}
+
+{% block main %}
+  <div class="content-questionset">
+    <h1 class="text-center my-4">Question set: <strong>{{question_set.name}}</strong></h1>
+    <div class="mb-2" id="{{question_set.is_public_label}}">
+      <div class="text-center">
+        PRIVATE SET
+      </div>
+      <div class="text-center">
+        Only invited users have access
+      </div>
+    </div>
+    <p class="tex-center mb-4">{{question_set.date_created}}</p>
+
+    <div class="my-4" id="add-user">
+      <div class="card w-100">
+        <div class="card-body">
+          <h2 class="text-center my-4">Add user to quiz</h2>
+          <div class="alert alert-danger" id="alert-error" role="alert">
+            There was an error, please try later again.
+          </div>
+          <div class="alert alert-success" id="alert-success" role="alert">
+            User added successfully!
+          </div>
+          
+          <div class="input-group mb-3">
+            <label for="search-user" class="m-2">Search user</label>
+            <input type="text" class="form-control" placeholder="Search user by email" id="input-search-user">
+            <div class="input-group-append">
+              <button class="btn btn-outline-success" type="button" onclick="searchUser()">Search</button>
+              <button class="btn btn-outline-danger" type="button" onclick="hideUserForm()">Cancel</button>
+            </div>
+          </div>
+
+          <div id="search-results">
+            <ul class="list-group list-group-flush mx-4" id="user-search-list"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz' users -->
+    <div class="my-4" id="user-list-section">
+      <div class="card w-100">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-11">
+              <h5 class="card-title">Users</h5>
+            </div>
+            <div class="col-sm-1">
+              <button type="button" class="btn btn-outline-success" id="btn-user-form"
+                data-toggle="tooltip" data-placement="top" title="Add user to quiz"
+                onclick="displayUserForm()">
+                <i class="fas fa-user-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body px-1">
+          <ul class="list-group list-group-flush mx-4" id="user-list">
+            {% for user in users %}
+              <li class="list-group-item list-group-item-action list-group-item-light">
+                <div class="row" >
+                  <div class="col-sm-10">
+                    {{loop.index}} - {{user.first_name}} {{user.last_name}}
+                  </div>
+                  <div class="col-sm-1">
+                    <button type="button" class="btn btn-outline-primary" id="btn-mark"
+                      data-toggle="tooltip" data-placement="top" title="Mark user's quiz"
+                      onclick="markUser({{user.id}})">
+                      <i class="fas fa-marker"></i>
+                    </button>
+                  </div>
+                  <div class="col-sm-1">
+                    <button type="button" class="btn btn-outline-danger" id="btn-remove-user"
+                      data-toggle="tooltip" data-placement="top" title="Remove user from quiz"
+                      onclick="removeUser({{user.id}})">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
