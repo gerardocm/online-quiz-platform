@@ -7,9 +7,14 @@ db = SQLAlchemy()
 def create_app():
   app = Flask(__name__)
 
+  # prod config
   app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 
+  # test config
+  # app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
+  # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
+  
   db.init_app(app)
 
   # blueprint for auth routes in our app
@@ -23,6 +28,10 @@ def create_app():
   # blueprint for  parts of app
   from .create_question_set import create_question_set as create_question_set_blueprint
   app.register_blueprint(create_question_set_blueprint)
+
+  # blueprint for displaying question sets
+  from .display_question_set import all_question_sets_available as all_question_sets_available_blueprint
+  app.register_blueprint(all_question_sets_available_blueprint)
 
   login_manager = LoginManager()
   login_manager.login_view = 'auth.login'
