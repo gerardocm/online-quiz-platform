@@ -27,13 +27,14 @@ $(document).ready(function() {
   }
 
   submitQuestionSet = function() {
-    console.log('submit :>> ');
     $.ajax({
       url: '/create-question-set/' + questionSetId + '/submit',
       method: 'PUT',
       contentType: 'application/json',
       success: function() {
         $("#question-set-success").show();
+        redirectPath = "/admin-question-set/" + questionSetId;
+        window.location.href = redirectPath;
       },
       error: function(request,msg,error) {
         $("#question-set-error").hide();
@@ -255,7 +256,6 @@ $(document).ready(function() {
   }
 
   function changeBtnSubmitLabel() {
-    console.log('questionSetId :>> ', questionSetId);
     if(!questionSetId) {
       $('#btn-submit-quiz').hide();
       return;
