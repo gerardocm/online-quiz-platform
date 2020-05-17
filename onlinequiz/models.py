@@ -11,9 +11,7 @@ class User(UserMixin, db.Model):
   password = db.Column(db.String(25), nullable=False)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   question_sets =  db.relationship('QuestionSet', lazy=True)
-  multichoice_questions_assigned = db.relationship('UserMultichoiceQuestion', backref='user_assigned', lazy=True)
-  manual_questions_assigned = db.relationship('UserManualQuestion', backref='user_assigned', lazy=True)
-  voting_questions_assigned = db.relationship('UserVotingQuestion', backref='user_assigned', lazy=True)
+  question_sets_assigned = db.relationship('QuestionSetUser', backref='user_assigned', lazy=True)
 
   def __repr__(self):
     return f"User('{self.email}')'"
@@ -33,6 +31,24 @@ class QuestionSet(db.Model):
 
   def __repr__(self):
     return f"QuestionSet('{self.id}')'"
+
+class QuestionSetUser(db.Model):
+  __tablename__ = 'QuestionSetUser'
+  __table_args__ = (
+    db.UniqueConstraint(
+      'user_id',
+      'question_set_id',
+      name='unique_user_question_set'
+    ),
+  )
+  id = db.Column(db.Integer, primary_key=True)
+  date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+  user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  question_set_id = db.Column(db.Integer, db.ForeignKey('QuestionSet.id'), nullable=False)
+  question_set = db.relationship("QuestionSet")
+
+  def __repr__(self):
+    return f"QuestionSetUser('{self.id}')'"
 
 class MultichoiceQuestion(db.Model):
   __tablename__ = 'MultichoiceQuestion'
@@ -60,7 +76,7 @@ class UserMultichoiceQuestion(db.Model):
   __tablename__ = 'UserMultichoiceQuestion'
   __table_args__ = (
     db.UniqueConstraint(
-      'user',
+      'question_set_user_id',
       'multichoice_question_id',
       'multichoice_option_id',
       name='unique_user_multichoice_question'
@@ -68,7 +84,7 @@ class UserMultichoiceQuestion(db.Model):
   )
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  question_set_user_id = db.Column(db.Integer, db.ForeignKey('QuestionSetUser.id'), nullable=False)
   multichoice_option_id = db.Column(db.Integer, db.ForeignKey('MultichoiceOption.id'), nullable=False)
   multichoice_question_id = db.Column(db.Integer, db.ForeignKey('MultichoiceQuestion.id'), nullable=False)
   multichoice_option = db.relationship("MultichoiceOption")
@@ -94,7 +110,7 @@ class UserManualQuestion(db.Model):
   __tablename__ = 'UserManualQuestion'
   __table_args__ = (
     db.UniqueConstraint(
-      'user',
+      'question_set_user_id',
       'manual_question_id',
       name='unique_user_manual_question'
     ),
@@ -104,6 +120,7 @@ class UserManualQuestion(db.Model):
   mark = db.Column(db.String(100), nullable=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
   user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  question_set_user_id = db.Column(db.Integer, db.ForeignKey('QuestionSetUser.id'), nullable=False)
   manual_question_id = db.Column(db.Integer, db.ForeignKey('ManualQuestion.id'), nullable=False)
   manual_question = db.relationship("ManualQuestion")
 
@@ -138,7 +155,7 @@ class UserVotingQuestion(db.Model):
   __tablename__ = 'UserVotingQuestion'
   __table_args__ = (
     db.UniqueConstraint(
-      'user',
+      'question_set_user_id',
       'voting_question_id',
       'voting_option_id',
       name='unique_user_voting_question'
@@ -146,7 +163,7 @@ class UserVotingQuestion(db.Model):
   )
   id = db.Column(db.Integer, primary_key=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
+  question_set_user_id = db.Column(db.Integer, db.ForeignKey('QuestionSetUser.id'), nullable=False)
   voting_option_id = db.Column(db.Integer, db.ForeignKey('VotingOption.id'), nullable=False)
   voting_question_id = db.Column(db.Integer, db.ForeignKey('VotingQuestion.id'), nullable=False)
   voting_option = db.relationship("VotingOption")
