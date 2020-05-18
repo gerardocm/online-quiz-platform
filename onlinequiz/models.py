@@ -46,6 +46,9 @@ class QuestionSetUser(db.Model):
   user_id = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
   question_set_id = db.Column(db.Integer, db.ForeignKey('QuestionSet.id'), nullable=False)
   question_set = db.relationship("QuestionSet")
+  user_multichoice_question =  db.relationship('UserMultichoiceQuestion')
+  user_manual_question =  db.relationship('UserManualQuestion')
+  user_voting_question =  db.relationship('UserVotingQuestion')
 
   def __repr__(self):
     return f"QuestionSetUser('{self.id}')'"
@@ -119,7 +122,6 @@ class UserManualQuestion(db.Model):
   answer = db.Column(db.String(100), nullable=True)
   mark = db.Column(db.String(100), nullable=True)
   date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-  user = db.Column(db.Integer, db.ForeignKey('User.id'), nullable=False)
   question_set_user_id = db.Column(db.Integer, db.ForeignKey('QuestionSetUser.id'), nullable=False)
   manual_question_id = db.Column(db.Integer, db.ForeignKey('ManualQuestion.id'), nullable=False)
   manual_question = db.relationship("ManualQuestion")
