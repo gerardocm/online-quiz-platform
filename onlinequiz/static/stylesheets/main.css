@@ -19,6 +19,10 @@ a {
   color: var(--theme-success);
 }
 
+strong {
+  font-weight: bolder;
+}
+
 .bkg-primary-light {
   background-color: #fdfaff;
 }
@@ -51,18 +55,25 @@ a {
   margin: auto;
 }
 
-.icon-danger {
-  color: red !important;
+.icon-danger, .color-danger {
+  color: var(--theme-warning);
 }
 
-.icon-correct {
+.icon-correct, .color-correct {
   color: rgb(40, 163, 40);
+}
+
+.icon-primary, .color-primary {
+  color: var(--theme-primary);
+}
+
+.icon-success, .color-success{
+  color: var(--theme-success);
 }
 
 .col-form-label {
   color: var(--theme-dark-primary) !important;
 }
-
 
 /* The following stylings are for the navBar.html file */
 

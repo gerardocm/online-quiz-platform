@@ -4,7 +4,15 @@ from onlinequiz.forms import QuestionSetForm, QuestionForm
 from onlinequiz.models import (
   User,
   QuestionSet,
-  QuestionSetUser
+  QuestionSetUser,
+  MultichoiceQuestion,
+  MultichoiceOption,
+  UserMultichoiceQuestion,
+  ManualQuestion,
+  UserManualQuestion,
+  VotingQuestion,
+  VotingOption,
+  UserVotingQuestion
 )
 from onlinequiz import db
 from sqlalchemy.exc import IntegrityError
@@ -50,8 +58,6 @@ def search_user():
     return response
     
   users = User.query.filter(User.email.like('%' + email + '%')).all()[:2]
-  print("users")
-  print(users)
   user_list = []
   for user in users:
     user_list.append({
@@ -104,5 +110,94 @@ def question_set_user_delete(uid):
     raise InvalidUsage('There was an error while updating the set.')
 
   response = jsonify({})
+  response.status_code = 200
+  return response
+
+@admin_question_set.route('/mark-question-set/<int:set_id>/user/<int:uid>')
+@login_required
+def mark_question_set_get(set_id, uid):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  if question_set.submitted is False:
+    return redirect(url_for('create_question_set.question_set_update', set_id=set_id))
+
+  question_set_user = QuestionSetUser.query.filter_by(question_set_id=set_id, user_id=uid).first()
+  questions = __get_question_set_with_answers(question_set_user)
+
+  return render_template(
+    'mark-question-set.html',
+    question_set_id=set_id,
+    user_id=set_id,
+    question_set=question_set,
+    questions=questions,
+    cuser=current_user
+  )
+
+
+def __get_question_set_with_answers(question_set_user):
+  question_set = question_set_user.question_set_id
+  user = question_set_user.user_id
+  multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=question_set).all()
+  manual_questions = ManualQuestion.query.filter_by(question_set=question_set).all()
+  voting_questions = VotingQuestion.query.filter_by(question_set=question_set).all()
+
+  for question in manual_questions:
+    question.answer = UserManualQuestion.query.filter_by(
+      manual_question=question,
+      question_set_user_id=question_set_user.id
+    ).first()
+
+  for question in multichoice_questions:
+    question.options = MultichoiceOption.query.filter_by(multichoice_question=question.id).all()
+    question.answer = UserMultichoiceQuestion.query.filter_by(
+      multichoice_question=question,
+      question_set_user_id=question_set_user.id
+    ).first()
+
+  for question in voting_questions:
+    question.options = VotingOption.query.filter_by(voting_question=question.id).all()
+    question.answer = UserVotingQuestion.query.filter_by(
+      voting_question=question,
+      question_set_user_id=question_set_user.id
+    ).first()
+
+  return {
+    "multichoice_questions": multichoice_questions,
+    "manual_questions": manual_questions,
+    "voting_questions": voting_questions
+  }
+
+@admin_question_set.route('/manual-question/answer/<int:question_ans_id>', methods=['POST'])
+@login_required
+def mark_manual_question(question_ans_id):
+  user_manual_question = UserManualQuestion.query.filter_by(id=question_ans_id).first()
+  manual_question = ManualQuestion.query.filter_by(
+    id=user_manual_question.manual_question_id
+  ).first()
+  question_set = QuestionSet.query.filter_by(
+    id=manual_question.question_set
+  ).first()
+
+  if question_set.owner != current_user.id:
+    return redirect(url_for('main.not_auth'))
+
+  if question_set.submitted is False:
+    return redirect(url_for('create_question_set.question_set_update', set_id=set_id))
+
+  if user_manual_question.answer is None:
+    raise InvalidUsage('This questions has not been answered yet.')
+
+  try:
+    mark = request.form.get('mark')
+    user_manual_question.mark = mark
+    db.session.commit()
+  except:
+    raise InvalidUsage('An error occur while updating.')
+
+  response = jsonify({
+    "mark": mark
+  })
   response.status_code = 200
   return response
