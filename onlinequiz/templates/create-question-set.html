@@ -44,13 +44,19 @@
           </div>
           <div class="form-group d-flex" id="question-set-submit">
             {{ form.submit(class="btn btn-outline-primary ml-auto") }}
-            <button type="button" class="btn btn-primary ml-4" onclick="submitQuestionSet()">Submit Question Set</button>
+            <button type="button" 
+              id="btn-submit-quiz"
+              class="btn btn-primary ml-4" 
+              onclick="submitQuestionSet()">
+              Submit Quiz
+            </button>
           </div>
         </form>
       </div>
     </div>
 
     {% if set_id %}
+      <!-- Add questions section -->
       <div class="my-4">
         <div class="card w-100">
           <div class="card-header text-center">
@@ -74,12 +80,14 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Manual questions created -->
       <div class="my-4" id="manual-questions">
         <div class="card w-100">
           <div class="card-body">
             <h5 class="card-title">Manual questions</h5>
           </div>
-          <div class="card-body p-1">
+          <div class="card-body px-1">
             <ul class="list-group list-group-flush mx-4" id="manual-question-list">
               {% for question in questions.manual_questions %}
                 <li class="list-group-item list-group-item-action list-group-item-light" id="{{question.id}}">
@@ -100,6 +108,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Multichoice questions -->
       <div class="my-4" id="multichoice-questions">
         <div class="card w-100">
           <div class="card-body">
@@ -125,7 +135,6 @@
                   <ul class="list-group list-group-flush" id="manual-question-list">
                     {% for option in question.options %}
                         <li class="list-group-item list-group-item-action list-group-item-light">
-                          <!-- <li class="list-group-item list-group-item-light"> -->
                         {{loop.index}} - {{option.option}} 
                         {% if option.is_correct %}
                           <i class="fas fa-check-circle icon-correct"></i>
@@ -141,6 +150,8 @@
           </div>
         </div>
       </div>
+
+      <!-- Display Voting questions -->
       <div class="my-4" id="voting-questions">
         <div class="card w-100">
           <div class="card-body">
@@ -152,7 +163,7 @@
                 <div class="card-header">
                   <div class="row">
                     <div class="col-sm-11">
-                      Question {{loop.index}}: {{question.question}} ({{question.id}})
+                      Question {{loop.index}}: {{question.question}}
                     </div>
                     <div class="col-sm-1">
                       <button type="button" class="btn btn-outline-danger" id="btn-delete-question"
@@ -166,7 +177,6 @@
                   <ul class="list-group list-group-flush" id="manual-question-list">
                     {% for option in question.options %}
                       <li class="list-group-item list-group-item-action list-group-item-light">
-                          <!-- <li class="list-group-item list-group-item-light"> -->
                         {{loop.index}} - {{option.option}}
                       </li>
                     {% endfor %}
@@ -179,5 +189,4 @@
       </div>
     {% endif %}
   </div>
-<!-- <script type="text/javascript" src="{{url_for('static', filename='scripts/create-question-set.js')}}"></script> -->
 {% endblock %}

@@ -14,7 +14,7 @@ from sqlalchemy.exc import IntegrityError
 from flask import jsonify
 import json
 
-create_question_set = Blueprint('@create_question_set', __name__)
+create_question_set = Blueprint('create_question_set', __name__)
 
 @create_question_set.route('/create-question-set')
 @login_required
@@ -57,7 +57,7 @@ def question_set_post():
       cuser=current_user
     )
 
-  return redirect(url_for('main.question_set_update',set_id=new_question_set.id))
+  return redirect(url_for('create_question_set.question_set_update',set_id=new_question_set.id))
 
 
 @create_question_set.route('/create-question-set/<int:set_id>')
@@ -66,6 +66,9 @@ def question_set_update(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
+
+  if question_set.submitted is True:
+    return redirect(url_for('admin_question_set.admin_question_set_get', set_id=set_id))
 
   form = QuestionSetForm(
     name=question_set.name,
@@ -159,7 +162,6 @@ def multichoice_question_post(set_id):
 
   question = request.form.get('question')
   options = json.loads(request.form.get('options').replace("'", "\""))
-  print(question)
   form = QuestionForm(question=question)
   if not question:
     raise InvalidUsage('There was an error while creating the quiz set.')
