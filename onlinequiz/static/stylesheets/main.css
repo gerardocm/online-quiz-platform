@@ -71,6 +71,10 @@ strong {
   color: var(--theme-success);
 }
 
+.icon-lg {
+  font-size: 68px;;
+}
+
 .col-form-label {
   color: var(--theme-dark-primary) !important;
 }
@@ -104,3 +108,4 @@ strong {
 li.nav-item{
   padding: 10px 20px;
 }
+

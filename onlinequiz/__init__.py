@@ -28,6 +28,10 @@ def create_app():
   from .admin_question_set import admin_question_set as admin_question_set_blueprint
   app.register_blueprint(admin_question_set_blueprint)
 
+  # blueprint for answer question set in the app
+  from .answer_question_set import answer_question_set as answer_question_set_blueprint
+  app.register_blueprint(answer_question_set_blueprint)
+
   login_manager = LoginManager()
   login_manager.login_view = 'auth.login'
   login_manager.init_app(app)
