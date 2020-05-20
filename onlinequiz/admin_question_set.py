@@ -26,7 +26,7 @@ admin_question_set = Blueprint('admin_question_set', __name__)
 def admin_question_set_get(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
 
-  if question_set.owner != current_user.id:
+  if question_set is None or question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
 
   if question_set.submitted is False:
@@ -47,6 +47,71 @@ def admin_question_set_get(set_id):
     users=users,
     cuser=current_user
   )
+
+@admin_question_set.route('/question-set/<int:set_id>', methods=['DELETE'])
+@login_required
+def admin_question_set_delete(set_id):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
+
+  if question_set is None:
+    response = jsonify({"Message": "Question set not found"})
+    response.status_code = 404
+    return response
+
+  if question_set.owner != current_user.id:
+    response = jsonify({"Message": "Not authorised"})
+    response.status_code = 403
+    return response
+
+  if question_set.submitted is False:
+    response = jsonify({"Message": "Question set has not been submitted yet."})
+    response.status_code = 403
+    return response
+
+  try:
+    # Delete all questions first
+    multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=question_set.id).all()
+    manual_questions = ManualQuestion.query.filter_by(question_set=question_set.id).all()
+    voting_questions = VotingQuestion.query.filter_by(question_set=question_set.id).all()
+
+    for question in manual_questions:
+      answers = UserManualQuestion.query.filter_by(
+        manual_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+      db.session.delete(question)
+
+    for question in multichoice_questions:
+      options = MultichoiceOption.query.filter_by(multichoice_question=question.id).all()
+      answers = UserMultichoiceQuestion.query.filter_by(
+        multichoice_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+      for option in options:
+        db.session.delete(option)
+      db.session.delete(question)
+
+    for question in voting_questions:
+      options = VotingOption.query.filter_by(voting_question=question.id).all()
+      answers = UserVotingQuestion.query.filter_by(
+        voting_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+      for option in options:
+        db.session.delete(option)
+      db.session.delete(question)
+
+    db.session.delete(question_set)
+    db.session.commit()
+  except:
+    raise InvalidUsage('There was an error while deleting the set.')
+
+  response = jsonify({})
+  response.status_code = 200
+  return response
 
 @admin_question_set.route('/users')
 @login_required
@@ -107,7 +172,7 @@ def question_set_user_delete(uid):
     db.session.delete(question_set_user)
     db.session.commit()
   except:
-    raise InvalidUsage('There was an error while updating the set.')
+    raise InvalidUsage('There was an error while deleting the set.')
 
   response = jsonify({})
   response.status_code = 200

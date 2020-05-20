@@ -36,7 +36,7 @@ def answer_question_set_get(set_id, uid):
     question_set.is_public_label = "private"
 
   question_set_user = QuestionSetUser.query.filter_by(question_set_id=set_id, user_id=uid).first()
-  if question_set_user is None:
+  if question_set_user is None or current_user.id != uid:
     return redirect(url_for('main.not_auth'))
 
   questions = __get_question_set_with_answers(question_set_user)

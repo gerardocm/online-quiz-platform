@@ -64,7 +64,7 @@ def question_set_post():
 @login_required
 def question_set_update(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
-  if question_set.owner != current_user.id:
+  if question_set is None or question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
 
   if question_set.submitted is True:

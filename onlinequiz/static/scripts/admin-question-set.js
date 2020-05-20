@@ -122,4 +122,19 @@ $(document).ready(function() {
     redirectPath += "/user/" + userId;
     window.location.href = redirectPath;
   }
+
+  deleteQuestionSet = function() {
+    const url = '/question-set/' + questionSetId;
+    $.ajax({
+      url: url,
+      method: 'DELETE',
+      contentType: 'application/json',
+      success: function() {
+        window.location.href = '/';
+      },
+      error: function(request,msg,error) {
+      }
+    });
+    $('#delete-quiz-modal').modal('hide');
+  }
 });
