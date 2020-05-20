@@ -86,134 +86,12 @@ def __get_question_set_with_answers(question_set_user):
       question.answer = answer
       unanswered_count = unanswered_count-1
 
-  print(unanswered_count)
   return {
     "multichoice_questions": multichoice_questions,
     "manual_questions": manual_questions,
     "voting_questions": voting_questions,
     "unanswered_questions_count": unanswered_count
   }
-
-# @admin_question_set.route('/users')
-# @login_required
-# def search_user():
-#   email = request.args.get('email')
-#   if email is None or email == '':
-#     response = jsonify({})
-#     response.status_code = 200
-#     return response
-    
-#   users = User.query.filter(User.email.like('%' + email + '%')).all()[:2]
-#   user_list = []
-#   for user in users:
-#     user_list.append({
-#       "id": user.id,
-#       "full_name": user.first_name + " " + user.last_name
-#     })
-#   response = jsonify(users=user_list)
-#   response.status_code = 200
-#   return response
-
-# @admin_question_set.route('/question-set-user', methods=['POST'])
-# @login_required
-# def question_set_user_post():
-#   question_set_id = request.form.get('question_set')
-#   question_set = QuestionSet.query.filter_by(id=question_set_id).first()
-
-#   if question_set.owner != current_user.id:
-#     return redirect(url_for('main.not_auth'))
-
-#   try:
-#     user_id = request.form.get('user')
-#     new_question_set_user = QuestionSetUser(
-#       user_id=user_id,
-#       question_set_id=question_set_id,
-#     )
-#     db.session.add(new_question_set_user)
-#     db.session.commit()
-#   except:
-#     raise InvalidUsage('There was an error while updating the set.')
-
-#   response = jsonify({
-#     'id': new_question_set_user.id,
-#   })
-#   response.status_code = 200
-#   return response
-
-# @admin_question_set.route('/question-set-user/user/<int:uid>', methods=['DELETE'])
-# @login_required
-# def question_set_user_delete(uid):
-#   question_set_user = QuestionSetUser.query.filter_by(user_id=uid).first()
-#   question_set_id = question_set_user.question_set_id
-#   question_set = QuestionSet.query.filter_by(id=question_set_id).first()
-#   if question_set.owner != current_user.id:
-#     return redirect(url_for('main.not_auth'))
-
-#   try:
-#     db.session.delete(question_set_user)
-#     db.session.commit()
-#   except:
-#     raise InvalidUsage('There was an error while updating the set.')
-
-#   response = jsonify({})
-#   response.status_code = 200
-#   return response
-
-# @admin_question_set.route('/mark-question-set/<int:set_id>/user/<int:uid>')
-# @login_required
-# def mark_question_set_get(set_id, uid):
-#   question_set = QuestionSet.query.filter_by(id=set_id).first()
-#   if question_set.owner != current_user.id:
-#     return redirect(url_for('main.not_auth'))
-
-#   if question_set.submitted is False:
-#     return redirect(url_for('create_question_set.question_set_update', set_id=set_id))
-
-#   question_set_user = QuestionSetUser.query.filter_by(question_set_id=set_id, user_id=uid).first()
-#   questions = __get_question_set_with_answers(question_set_user)
-
-#   return render_template(
-#     'mark-question-set.html',
-#     question_set_id=set_id,
-#     user_id=set_id,
-#     question_set=question_set,
-#     questions=questions,
-#     cuser=current_user
-#   )
-
-
-# def __get_question_set_with_answers(question_set_user):
-#   question_set = question_set_user.question_set_id
-#   user = question_set_user.user_id
-#   multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=question_set).all()
-#   manual_questions = ManualQuestion.query.filter_by(question_set=question_set).all()
-#   voting_questions = VotingQuestion.query.filter_by(question_set=question_set).all()
-
-#   for question in manual_questions:
-#     question.answer = UserManualQuestion.query.filter_by(
-#       manual_question=question,
-#       question_set_user_id=question_set_user.id
-#     ).first()
-
-#   for question in multichoice_questions:
-#     question.options = MultichoiceOption.query.filter_by(multichoice_question=question.id).all()
-#     question.answer = UserMultichoiceQuestion.query.filter_by(
-#       multichoice_question=question,
-#       question_set_user_id=question_set_user.id
-#     ).first()
-
-#   for question in voting_questions:
-#     question.options = VotingOption.query.filter_by(voting_question=question.id).all()
-#     question.answer = UserVotingQuestion.query.filter_by(
-#       voting_question=question,
-#       question_set_user_id=question_set_user.id
-#     ).first()
-
-#   return {
-#     "multichoice_questions": multichoice_questions,
-#     "manual_questions": manual_questions,
-#     "voting_questions": voting_questions
-#   }
 
 @answer_question_set.route('/question-set/<int:set_id>/manual-question/<int:question_id>/answer/', methods=['POST'])
 @login_required
@@ -258,6 +136,104 @@ def answer_manual_question(set_id, question_id):
 
   response = jsonify({
     "answer": answer
+  })
+  response.status_code = 200
+  return response
+
+@answer_question_set.route('/question-set/<int:set_id>/multichoice-question/<int:question_id>/answer/', methods=['POST'])
+@login_required
+def answer_multichoice_question(set_id, question_id):
+  user = current_user
+  multichoice_question = MultichoiceQuestion.query.filter_by(
+    id=question_id
+  ).first()
+  question_set = QuestionSet.query.filter_by(
+    id=set_id
+  ).first()
+
+  if question_set.submitted is False:
+    return redirect(url_for('create_question_set.question_set_update', set_id=set_id))
+  
+  question_set_user = QuestionSetUser.query.filter_by(
+    user_id=current_user.id,
+    question_set_id=set_id
+  ).first()
+
+  if question_set_user is None:
+    return redirect(url_for('main.not_auth'))
+  
+  multichoice_option_id = request.form.get('answer')
+  user_multichoice_question = UserMultichoiceQuestion.query.filter_by(
+    multichoice_question_id=multichoice_question.id,
+    multichoice_option_id=multichoice_option_id,
+    question_set_user_id=question_set_user.id
+  ).first()
+
+  if user_multichoice_question is not None:
+    raise InvalidUsage('This questions has been answered.')
+  print("So far so good")
+  try:
+    user_multichoice_question = UserMultichoiceQuestion(
+      multichoice_question_id=multichoice_question.id,
+      multichoice_option_id=multichoice_option_id,
+      question_set_user_id=question_set_user.id
+    )
+    db.session.add(user_multichoice_question)
+    db.session.commit()
+  except:
+    raise InvalidUsage('An error occur while updating.')
+
+  response = jsonify({
+    "answer": user_multichoice_question.id
+  })
+  response.status_code = 200
+  return response
+
+@answer_question_set.route('/question-set/<int:set_id>/voting-question/<int:question_id>/answer/', methods=['POST'])
+@login_required
+def answer_voting_question(set_id, question_id):
+  user = current_user
+  voting_question = VotingQuestion.query.filter_by(
+    id=question_id
+  ).first()
+  question_set = QuestionSet.query.filter_by(
+    id=set_id
+  ).first()
+
+  if question_set.submitted is False:
+    return redirect(url_for('create_question_set.question_set_update', set_id=set_id))
+  
+  question_set_user = QuestionSetUser.query.filter_by(
+    user_id=current_user.id,
+    question_set_id=set_id
+  ).first()
+
+  if question_set_user is None:
+    return redirect(url_for('main.not_auth'))
+  
+  voting_option_id = request.form.get('answer')
+  user_voting_question = UserVotingQuestion.query.filter_by(
+    voting_question_id=voting_question.id,
+    voting_option_id=voting_option_id,
+    question_set_user_id=question_set_user.id
+  ).first()
+
+  if user_voting_question is not None:
+    raise InvalidUsage('This questions has been answered.')
+  print("So far so good")
+  try:
+    user_voting_question = UserVotingQuestion(
+      voting_question_id=voting_question.id,
+      voting_option_id=voting_option_id,
+      question_set_user_id=question_set_user.id
+    )
+    db.session.add(user_voting_question)
+    db.session.commit()
+  except:
+    raise InvalidUsage('An error occur while updating.')
+
+  response = jsonify({
+    "answer": user_voting_question.id
   })
   response.status_code = 200
   return response

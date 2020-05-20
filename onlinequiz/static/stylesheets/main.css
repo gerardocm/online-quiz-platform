@@ -109,3 +109,6 @@ li.nav-item{
   padding: 10px 20px;
 }
 
+.form-check-input {
+  cursor: pointer;
+}
