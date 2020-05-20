@@ -638,3 +638,10 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(61, 222, 255,.125) !important;
 }
 
+.card-ans-header > .title {
+  font-size: 18px;
+}
+
+.card-ans-header .sub-title {
+  font-size: 12px;
+}

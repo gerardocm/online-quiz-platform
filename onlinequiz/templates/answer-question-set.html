@@ -32,8 +32,12 @@
       {% for question in questions.manual_questions %}
         {% if not question.answer %}
           <div class="card w-100 my-4">
-            <div class="card-header">
-              <strong>Question:</strong> {{question.question}}
+            <div class="card-header card-ans-header">
+              <div class="title">
+                <i class="fas fa-fist-raised"></i>
+                <strong>Question:</strong> {{question.question}}
+              </div>
+              <div class="sub-title"><strong>Text question.</strong> Write down your answer.</div>
             </div>
             <div class="card-body">
               <div class="alert alert-danger" role="alert" id="alert-error-manual-{{question.id}}">
@@ -60,8 +64,12 @@
       {% for question in questions.multichoice_questions %}
         {% if not question.answer %}
           <div class="card w-100 my-4">
-            <div class="card-header">
-              <strong>Question:</strong> {{question.question}}
+            <div class="card-header card-ans-header">
+              <div class="title">
+                <i class="fas fa-tasks"></i>
+                <strong>Question:</strong> {{question.question}}
+              </div>
+              <div class="sub-title"><strong>Multichoice question.</strong> Choose one of the options below.</div>
             </div>
             <div class="card-body">
               <div class="alert alert-danger" role="alert" id="alert-error-multichoice-{{question.id}}">
@@ -99,13 +107,14 @@
       {% for question in questions.voting_questions %}
         {% if not question.answer %}
           <div class="card w-100 my-4">
-            <div class="card-header">
-              <strong>Question:</strong> {{question.question}}
+            <div class="card-header card-ans-header">
+              <div class="title">
+                <i class="fas fa-users"></i>
+                <strong>Question:</strong> {{question.question}}
+              </div>
+              <div class="sub-title"><strong>Community voting question.</strong> Vote for one of the options below.</div>
             </div>
             <div class="card-body">
-              <div class="alert alert-success my-4 p-4" role="alert" id="answer-note">
-                
-              </div>
               <div class="alert alert-danger" role="alert" id="alert-error-voting-{{question.id}}">
                 An error occurred while updating. Please try again.
               </div>

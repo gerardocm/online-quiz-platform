@@ -2,6 +2,7 @@ $(document).ready(function() {
   $(".alert").hide();
   $("#answer-note").show();
   $("#empty-note").show();
+
   submitAnsManualQuestion = function(questionSetId, questionId) {
     let ansData = {
       answer: $.trim($('#answer-' + questionId).val())
