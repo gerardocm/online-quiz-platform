@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
-<!-- Local JS file added-->
-<script type="text/javascript" src="{{url_for('static', filename='scripts/admin-question-set.js')}}"></script>
+  <!-- Local JS file added-->
+  <script type="text/javascript" src="{{url_for('static', filename='scripts/admin-question-set.js')}}"></script>
 {% endblock head%}
 
 {% block main %}
@@ -91,8 +91,6 @@
 
     <button type="button" class="btn btn-outline-danger my-4" id="btn-remove-user"
       data-toggle="modal" data-target="#delete-quiz-modal">
-    <!-- data-toggle="tooltip" data-placement="top" title="WARNING! This will delete the quiz!" -->
-      <!-- onclick="deleteQuestionSet({{question_set.id}})"> -->
       <i class="fas fa-trash-alt"></i>
       Delete quiz
     </button>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block head %}
-<!-- Local JS file added-->
-<script type="text/javascript" src="{{url_for('static', filename='scripts/answer-question-set.js')}}"></script>
+  <!-- Local JS file added-->
+  <script type="text/javascript" src="{{url_for('static', filename='scripts/answer-question-set.js')}}"></script>
 {% endblock head%}
 
 {% block main %}
@@ -22,7 +22,7 @@
         <i class="fas fa-vote-yea icon-primary icon-lg m-auto"></i>
       </div>
       <a class="btn btn-outline-primary btn-lg d-flex m-auto w-25" type="button" 
-        href="#">
+        href="{{url_for('result_question_set.result_question_set_get', set_id=question_set.id, uid=uid )}}"
         <span class="m-auto">Go to results</span>        
       </a>
     {% endif %}

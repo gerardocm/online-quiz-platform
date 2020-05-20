@@ -599,6 +599,10 @@ a.text-danger:hover, a.text-danger:focus {
   border-radius: 8px;
 }
 
+.progress-bar {
+  border-radius: 8px;
+}
+
 .card {
   border-radius: 8px;
   border-color: var(--theme-primary);

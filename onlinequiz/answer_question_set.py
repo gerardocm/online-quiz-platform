@@ -46,7 +46,8 @@ def answer_question_set_get(set_id, uid):
     set_id=set_id,
     question_set=question_set,
     questions=questions,
-    cuser=current_user
+    cuser=current_user,
+    uid=uid
   )
 
 def __get_question_set_with_answers(question_set_user):
