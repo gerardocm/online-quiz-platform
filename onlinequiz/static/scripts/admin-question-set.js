@@ -8,6 +8,7 @@ $(document).ready(function() {
   let questionSetId;
   getQuestionSetId();
   setQuestionSetDate();
+  setQuestionSetPrivacy();
   $("body").addClass("bkg-primary-light");
   $("#alert-error").hide();
   $("#alert-success").hide();
@@ -22,6 +23,17 @@ $(document).ready(function() {
       return;
 
     questionSetId = pathArray[pathArray.length-1];
+  }
+
+  function setQuestionSetPrivacy() {
+    if($('#public').length) {
+      $("#privacy-title").text("PUBLIC");
+      $("#privacy-text").text("All registered users have access");
+    }
+    else if($('#private').length) {
+      $("#privacy-title").text("PRIVATE");
+      $("#privacy-text").text("Only invited users have access");
+    }
   }
 
   function setQuestionSetDate() {

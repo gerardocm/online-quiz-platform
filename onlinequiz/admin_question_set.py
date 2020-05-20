@@ -34,7 +34,7 @@ def admin_question_set_get(set_id):
 
   if question_set.is_public:
     question_set.is_public_label = "public"
-  if question_set.is_public:
+  if not question_set.is_public:
     question_set.is_public_label = "private"
 
   qset_users = QuestionSetUser.query.filter_by(question_set_id=set_id).all()
