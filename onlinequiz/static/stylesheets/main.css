@@ -19,6 +19,10 @@ a {
   color: var(--theme-success);
 }
 
+strong {
+  font-weight: bolder;
+}
+
 .bkg-primary-light {
   background-color: #fdfaff;
 }
@@ -51,12 +55,24 @@ a {
   margin: auto;
 }
 
-.icon-danger {
-  color: red !important;
+.icon-danger, .color-danger {
+  color: var(--theme-warning);
 }
 
-.icon-correct {
+.icon-correct, .color-correct {
   color: rgb(40, 163, 40);
+}
+
+.icon-primary, .color-primary {
+  color: var(--theme-primary);
+}
+
+.icon-success, .color-success{
+  color: var(--theme-success);
+}
+
+.icon-lg {
+  font-size: 68px;;
 }
 
 .col-form-label {
@@ -93,6 +109,7 @@ li.nav-item{
   padding: 10px 20px;
 }
 
+<<<<<<< HEAD
 /* The following stylings are for the all-question-sets.html file */
 
 .quiz_section {
@@ -178,4 +195,8 @@ li.nav-item{
   height: 8px;
   border-radius: 50%;
   background: white;
+=======
+.form-check-input {
+  cursor: pointer;
+>>>>>>> ae80b118e7ed13248d69ffdc6fb4aba9923743dd
 }

@@ -64,7 +64,7 @@ def question_set_post():
 @login_required
 def question_set_update(set_id):
   question_set = QuestionSet.query.filter_by(id=set_id).first()
-  if question_set.owner != current_user.id:
+  if question_set is None or question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
 
   if question_set.submitted is True:
@@ -344,3 +344,24 @@ def voting_question_delete(set_id, question_id):
   response = jsonify({})
   response.status_code = 200
   return response
+
+class InvalidUsage(Exception):
+    status_code = 400
+
+    def __init__(self, message, status_code=None, payload=None):
+        Exception.__init__(self)
+        self.message = message
+        if status_code is not None:
+            self.status_code = status_code
+        self.payload = payload
+
+    def to_dict(self):
+        rv = dict(self.payload or ())
+        rv['message'] = self.message
+        return rv
+
+@create_question_set.errorhandler(InvalidUsage)
+def handle_invalid_usage(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response

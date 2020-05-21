@@ -60,18 +60,30 @@
       <div class="my-4">
         <div class="card w-100">
           <div class="card-header text-center">
-            <div class="btn-group btn-group-toggle w-100" data-toggle="buttons">
+            <div class="btn-group btn-group-toggle w-100">
               <label class="btn btn-primary w-100">
-                <input type="radio" name="add-multichoice" id="add-multichoice" autocomplete="off" checked>
-                <i class="fas fa-plus"></i> Multichoice
+                <input type="radio" name="add-manual" 
+                  id="add-manual" autocomplete="off"
+                  onclick="getManualForm()" checked>
+                <i class="fas fa-plus"></i> 
+                Manual
+                <i class="fas fa-fist-raised"></i>
               </label>
               <label class="btn btn-primary w-100">
-                <input type="radio" name="add-manual" id="add-manual" autocomplete="off" checked>
-                <i class="fas fa-plus"></i> Manual
+                <input type="radio" name="add-multichoice" 
+                  id="add-multichoice" autocomplete="off" 
+                  onclick="getMultichoiceForm()" checked>
+                <i class="fas fa-plus"></i>
+                Multichoice
+                <i class="fas fa-tasks"></i>
               </label>
               <label class="btn btn-primary w-100" id="add-manual">
-                <input type="radio" name="add-voting" id="add-voting" autocomplete="off" checked>
-                <i class="fas fa-plus"></i> Community Voting
+                <input type="radio" name="add-voting"
+                  id="add-voting" autocomplete="off"
+                  onclick="getVotingForm()" checked>
+                <i class="fas fa-plus"></i> 
+                Community Voting
+                <i class="fas fa-users"></i>
               </label>
             </div>
           </div>
@@ -85,7 +97,7 @@
       <div class="my-4" id="manual-questions">
         <div class="card w-100">
           <div class="card-body">
-            <h5 class="card-title">Manual questions</h5>
+            <h5 class="card-title"><i class="fas fa-fist-raised"></i> Manual questions</h5>
           </div>
           <div class="card-body px-1">
             <ul class="list-group list-group-flush mx-4" id="manual-question-list">
@@ -113,7 +125,7 @@
       <div class="my-4" id="multichoice-questions">
         <div class="card w-100">
           <div class="card-body">
-            <h5 class="card-title">Multichoice questions</h5>
+            <h5 class="card-title"><i class="fas fa-tasks"></i> Multichoice questions</h5>
           </div>
           <div class="card-body" id="multichoice-question-list">
             {% for question in questions.multichoice_questions %}
@@ -155,7 +167,7 @@
       <div class="my-4" id="voting-questions">
         <div class="card w-100">
           <div class="card-body">
-            <h5 class="card-title">Voting questions</h5>
+            <h5 class="card-title"><i class="fas fa-users"></i> Voting questions</h5>
           </div>
           <div class="card-body" id="voting-question-list">
             {% for question in questions.voting_questions %}

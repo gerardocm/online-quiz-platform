@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block head %}
+<!-- Local JS file added-->
+<script type="text/javascript" src="{{url_for('static', filename='scripts/mark-question-set.js')}}"></script>
+{% endblock head%}
+
+{% block main %}
+  <div class="content-questionset">
+    <h1 class="text-center my-4">Question set: <strong>{{question_set.name}}</strong></h1>
+
+    <!-- Display Manual questions marking -->
+    <div class="my-4" id="manual-questions">
+      {% for question in questions.manual_questions %}
+        <div class="card w-100 my-4">
+          <div class="card-header">
+            <strong>Question:</strong> {{question.question}}
+          </div>
+          <div class="card-body">
+            {% if question.answer %}
+              <div class="alert alert-danger" role="alert" id="alert-error">
+                An error occurred while updating. Please try again.
+              </div>
+              <div class="alert alert-success" role="alert" id="alert-success">
+                Mark updated
+              </div>
+              <p><strong>Answer: </strong></p>
+              <p>{{question.answer.answer}}</p>
+
+              <div class="my-3 row" id="answer-mark-{{question.id}}">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-4 m-auto text-right icon-success">
+                  <i class="fas fa-marker icon-success"></i> Mark: {{question.answer.mark}}
+                </div>
+                <div class="col-sm-3">
+                  <button class="btn btn-outline-success" type="button" 
+                    onclick="editMark('{{question.id}}')">
+                    Edit Mark
+                  </button>
+                </div>
+              </div>
+              <div class="input-group my-3" id="input-group-mark-{{question.id}}">
+                <label for="search-user" class="m-2">Mark</label>
+                <input type="text" class="form-control" placeholder="Enter the mark" value="{{question.answer.mark}}" id="input-mark-{{question.id}}">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-success" type="button" 
+                    onclick="submitMark('{{question.id}}','{{question.answer.id}}')">
+                    Submit Mark
+                  </button>
+                  <button class="btn btn-outline-danger" type="button" 
+                    onclick="cancelEditMark('{{question.id}}')">
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            {% else %}
+              <p class="color-danger">This questions has not been answered yet.</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
