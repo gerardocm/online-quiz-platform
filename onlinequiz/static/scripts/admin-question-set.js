@@ -6,6 +6,7 @@ let markUser;
 
 $(document).ready(function() {
   let questionSetId;
+  let selectedUserId;
   getQuestionSetId();
   setQuestionSetDate();
   setQuestionSetPrivacy();
@@ -114,8 +115,15 @@ $(document).ready(function() {
     });
   }
 
-  removeUser = function(userId) {
-    const url = '/question-set-user/user/' + userId;
+  selectUser = function(UserId) {
+    selectedUserId = UserId;
+  };
+
+  removeUser = function() {
+    if(!questionSetId || !selectedUserId)
+      return;
+    
+    const url = '/question-set-user/' + questionSetId + '/user/' + selectedUserId;
     $.ajax({
       url: url,
       method: 'DELETE',

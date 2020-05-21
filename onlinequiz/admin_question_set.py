@@ -159,16 +159,45 @@ def question_set_user_post():
   response.status_code = 200
   return response
 
-@admin_question_set.route('/question-set-user/user/<int:uid>', methods=['DELETE'])
+@admin_question_set.route('/question-set-user/<int:set_id>/user/<int:uid>', methods=['DELETE'])
 @login_required
-def question_set_user_delete(uid):
-  question_set_user = QuestionSetUser.query.filter_by(user_id=uid).first()
-  question_set_id = question_set_user.question_set_id
-  question_set = QuestionSet.query.filter_by(id=question_set_id).first()
+def question_set_user_delete(set_id, uid):
+  question_set = QuestionSet.query.filter_by(id=set_id).first()
   if question_set.owner != current_user.id:
     return redirect(url_for('main.not_auth'))
 
   try:
+    question_set_user = QuestionSetUser.query.filter_by(
+      user_id=uid,
+      question_set_id=set_id
+    ).first()
+
+    # Gets the question related to delete the answers of the user
+    multichoice_questions = MultichoiceQuestion.query.filter_by(question_set=question_set.id).all()
+    manual_questions = ManualQuestion.query.filter_by(question_set=question_set.id).all()
+    voting_questions = VotingQuestion.query.filter_by(question_set=question_set.id).all()
+
+    for question in manual_questions:
+      answers = UserManualQuestion.query.filter_by(
+        manual_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+
+    for question in multichoice_questions:
+      answers = UserMultichoiceQuestion.query.filter_by(
+        multichoice_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+
+    for question in voting_questions:
+      answers = UserVotingQuestion.query.filter_by(
+        voting_question=question,
+      ).all()
+      for answer in answers:
+        db.session.delete(answer)
+
     db.session.delete(question_set_user)
     db.session.commit()
   except:
