@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-lg fixed-top" id="main-nav">
-<<<<<<< HEAD
     <div class="container-fluid">
         <a class="navbar-brand js-scroll-trigger" href="{{url_for('main.home')}}">
             <img src="{{ url_for('static', filename='/img/quizard-iso.png') }}" width="50" height="50">
@@ -20,7 +19,7 @@
                     <a class="nav-link" href="{{url_for('@all_question_sets_available.all_question_sets')}}">Take a Quiz!</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('@create_question_set.question_set')}}">Create a Quiz!</a>
+                    <a class="nav-link" href="{{url_for('create_question_set.question_set')}}">Create a Quiz!</a>
                 </li>
                 {% if cuser and cuser.is_authenticated %}
                     <li class="nav-item">
@@ -36,46 +35,6 @@
                 {% endif %}
             </ul>
         </div>
-=======
-  <div class="container-fluid">
-    <a class="navbar-brand js-scroll-trigger" href="{{url_for('main.home')}}">
-      <img src="{{ url_for('static', filename='/img/quizard-iso.png') }}">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-responsive"
-      aria-controls="navbar-responsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbar-responsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{url_for('main.home')}}">Home<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Take a Quiz!</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{url_for('create_question_set.question_set')}}">Create a Quiz!</a>
-        </li>
-        {% if cuser and cuser.is_authenticated %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
-              {{cuser.first_name}}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{ url_for('auth.logout')}}">Logout</a>
-            </div>
-          </li>
-        {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('auth.login')}}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('auth.signup')}}">Signup</a>
-          </li>
-        {% endif %}
-      </ul>
->>>>>>> e05187acc4b8d2c0784447e2e609acfa8a91e8ee
     </div>
   </div>
 </nav>
