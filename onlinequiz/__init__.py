@@ -2,6 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 db = SQLAlchemy()
 
 def create_app():
@@ -13,7 +17,7 @@ def create_app():
 
   # test config
   # app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
-  # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
+  #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'Tests/test.db')
   
   db.init_app(app)
 
@@ -29,15 +33,12 @@ def create_app():
   from .create_question_set import create_question_set as create_question_set_blueprint
   app.register_blueprint(create_question_set_blueprint)
 
-<<<<<<< HEAD
   # blueprint for displaying question sets
   from .display_question_set import all_question_sets_available as all_question_sets_available_blueprint
   app.register_blueprint(all_question_sets_available_blueprint)
-=======
   # blueprint for admin question set in the app
   from .admin_question_set import admin_question_set as admin_question_set_blueprint
   app.register_blueprint(admin_question_set_blueprint)
->>>>>>> e05187acc4b8d2c0784447e2e609acfa8a91e8ee
 
   login_manager = LoginManager()
   login_manager.login_view = 'auth.login'

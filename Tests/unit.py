@@ -11,7 +11,6 @@ from onlinequiz.models import (
   VotingQuestion,
   VotingOption
 )
-from selenium import webDriver
 
 class UserModelTest(unittest.TestCase):
 
