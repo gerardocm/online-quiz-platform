@@ -35,8 +35,7 @@ def result_question_set_get(set_id, uid):
     question_set.is_public_label = "private"
 
   question_set_user = QuestionSetUser.query.filter_by(question_set_id=set_id, user_id=uid).first()
-  print(question_set.owner)
-  print(uid)
+
   if question_set_user is None or \
     (current_user.id != uid and \
     question_set.owner != current_user.id):
@@ -89,7 +88,6 @@ def __get_question_set_with_answers(question_set_user):
     for option in question.options:
       votes = UserVotingQuestion.query.filter_by(
         voting_question=question,
-        # question_set_user_id=question_set_user.id,
         voting_option_id=option.id
       ).count()
       if total_votes > 0 and votes > 0:

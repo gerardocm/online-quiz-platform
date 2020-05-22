@@ -1,11 +1,154 @@
 {% extends 'base.html' %}
+{% block head %}
+  <!-- Local JS file added-->
+  <script type="text/javascript" src="{{url_for('static', filename='scripts/question-set.js')}}"></script>
+{% endblock head%}
 
-  
 {% block main %}
+  <div class="content-questionset">
+    <h1 class="text-center my-4">Quizzes</h1>
 
-{% include 'navBar.html' %}
 
-  <h1>Quizzes listing</h1>
-  <h2>Welcome {{full_name}}</h2>
-  
+    <!-- Display Filter container -->
+    <div class="my-4" id="container-filter">
+      <div class="card w-100 my-4 px-2 py-2">
+        <div class="card-body">
+          <h5 class="card-title">Filter quizzes</h5>
+          <div class="row px-2 mt-4">
+            <div class="col-sm-4 border-right border-success">
+              <div class="filter-col">
+                <input type="checkbox" class="form-check-input" id="is-public">
+                <label class="form-check-label" for="is-correct">Public</label>
+              </div>
+            </div>
+            <div class="col-sm-4 border-right border-success">
+              <div class="filter-col">
+                <input type="checkbox" class="form-check-input" id="assigned">
+                <label class="form-check-label" for="assigned">Assigned to me</label>
+              </div>
+            </div>
+            <div class="col-sm-4 filter-col">
+              <div class="filter-col">
+                <div class="mb-2">
+                  <input type="checkbox" class="form-check-input" id="owner">
+                  <label class="form-check-label" for="owner">Owned by me</label>
+                </div>
+                <div class="filter-col">
+                  <input type="checkbox" class="form-check-input" id="submitted">
+                  <label class="form-check-label" for="submitted">Published</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-outline-success mt-2 ml-auto mr-0" type="button" 
+            onclick="applyFilter()">
+            Apply filters
+          </button>
+        </div>
+      </div>
+    </div>
+      
+    <!-- Display question set list empty alert -->
+    {% if number_of_question_sets == 0 %}
+      <div class="alert alert-success" id="alert-success" role="alert">
+        No quizzes available!
+      </div>          
+    {% elif number_of_question_sets > 0 %}
+      <div class="alert alert-success" id="alert-success" role="alert">
+        Number of results: {{number_of_question_sets}}
+      </div>          
+    {% elif number_of_question_sets < 0 %}
+      <div class="alert alert-danger" id="alert-danger" role="alert">
+        An error occur
+      </div>          
+    {% endif %}
+
+    <!-- Display questions sets -->
+    <div class="my-4" id="question-set-list">
+      {% for question_set in question_set_list %}
+        {{question_set_list|length}}
+        <div class="card w-100 my-4">
+          <div class="card-header card-ans-header">
+            <div class="title">
+              <strong>{{question_set.name}} {{question_set.id}} </strong>
+            </div>
+          </div>
+          <div class="card-body grid-body">
+            <div class="w-100">
+              <div class="d-flex">
+                <i class="fas fa-calendar-check icon-success m-auto icon-md"></i>
+              </div>
+              <p class="grid-font">{{question_set.date_created}}</p> 
+            </div>
+
+            {% if question_set.is_public and question_set.is_assigned==False %}
+              <div class="w-100 cursor-pointer" onclick="joinQuiz(cuser.id, question_set.id)"
+                data-toggle="tooltip" data-placement="top" title="Click here to join quiz">
+                <div class="d-flex">
+                  <i class="fas fa-users icon-success m-auto icon-md"></i>
+                </div>
+                <p class="grid-font">Public. Join now!</p> 
+              </div>
+            {% elif question_set.is_public%}
+              <div class="w-100">
+                <div class="d-flex">
+                  <i class="fas fa-users icon-success m-auto icon-md"></i>
+                </div>
+                <p class="grid-font">Public</p> 
+              </div>
+            {% else %}
+              <div class="w-100">
+                <div class="d-flex">
+                  <i class="fas fa-user-secret icon-success m-auto icon-md"></i>
+                </div>
+                <p class="grid-font">Private</p> 
+              </div>
+            {% endif %}
+
+            {% if question_set.owner == cuser.id %}
+              <a class="m-auto mw-50" type="button" 
+                data-toggle="tooltip" data-placement="top" title="Click here to admin quiz"
+                href="{{url_for('admin_question_set.admin_question_set_get', set_id=question_set.id)}}">
+                <div class="w-100">
+                  <div class="d-flex">
+                    <i class="fas fa-crown icon-success m-auto icon-md"></i>
+                  </div>
+                  <p class="grid-font">Owner</p> 
+                </div>
+              </a>
+            {% endif %}
+
+            {% if not question_set.submitted %}
+            <a class="m-auto mw-50" type="button" 
+              data-toggle="tooltip" data-placement="top" title="Click here to complete quiz"
+              href="{{url_for('create_question_set.question_set_update', set_id=question_set.id)}}">
+                <div class="w-100">
+                  <div class="d-flex">
+                    <i class="fas fa-star-half-alt icon-success m-auto icon-md"></i>
+                  </div>
+                  <p class="grid-font">Incomplete quiz</p> 
+                </div>
+              </a>
+            {% endif %}
+
+            {% if question_set.is_assigned==True %}
+              <a class="m-auto mw-50" type="button" 
+                data-toggle="tooltip" data-placement="top" title="Click here to answer quiz"
+                href="{{url_for('answer_question_set.answer_question_set_get', set_id=question_set.id, uid=cuser.id)}}">
+                <div class="w-100">
+                  <div class="d-flex">
+                    <i class="fas fa-bullseye icon-success m-auto icon-md"></i>
+                  </div>
+                  <p class="grid-font">Assigned</p> 
+                </div>
+              </a>
+            {% endif %}
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+
+  </div>
 {% endblock %}

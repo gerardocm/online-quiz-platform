@@ -221,7 +221,7 @@ def answer_voting_question(set_id, question_id):
 
   if user_voting_question is not None:
     raise InvalidUsage('This questions has been answered.')
-  print("So far so good")
+
   try:
     user_voting_question = UserVotingQuestion(
       voting_question_id=voting_question.id,
