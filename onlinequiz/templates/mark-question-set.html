@@ -6,8 +6,14 @@
 
 {% block main %}
   <div class="content-questionset">
-    <h1 class="text-center my-4">Question set: <strong>{{question_set.name}}</strong></h1>
+    <h1 class="text-center my-4"><strong>{{question_set.name}}</strong></h1>
 
+    <a class="btn btn-outline-secondary btn-lg mr-0" type="button" 
+      data-toggle="tooltip" data-placement="top" title="Return to admin quiz"
+      href="{{url_for('admin_question_set.admin_question_set_get', set_id=question_set.id)}}">
+      <i class="fas fa-arrow-circle-left m-auto"></i><span class="ml-2">Return</span>        
+    </a>
+    
     <!-- Display Manual questions marking -->
     <div class="my-4" id="manual-questions">
       {% for question in questions.manual_questions %}

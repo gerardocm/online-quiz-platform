@@ -19,6 +19,7 @@ $(document).ready(function() {
   };
   setFilters();
   $('[data-toggle="tooltip"]').tooltip();
+  $("#alert-error").hide();
 
   function setFilters() {
     let filterUrl = window.location.search;
@@ -67,6 +68,24 @@ $(document).ready(function() {
   joinQuiz = function(userId,quizId) {
     console.log('userId :>> ', userId);
     console.log('quizId :>> ', quizId);
+    let data = {
+      "user": userId, 
+      "question_set": quizId, 
+    };
+    const url = '/question-set-user';
+    $.post(url, data, (success) => {
+      $("#alert-success").show();
+      setTimeout(() => {
+        // $("#alert-question-success").hide();
+        // $("#hideUserForm").empty();
+        // location.reload();
+        let redirectUrl = '/answer-question-set/' + quizId + '/user/' + userId;
+        window.location.href = redirectUrl;
+      }, 2000);
+    })
+    .fail(() => {
+      $("#alert-error").show();
+    });
   }
 
 });

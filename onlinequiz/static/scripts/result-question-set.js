@@ -2,6 +2,7 @@ $(document).ready(function() {
   getQuestionSetId();
   setQuestionSetDate();
   setQuestionSetPrivacy();
+  $('[data-toggle="tooltip"]').tooltip();
 
   function getQuestionSetId() {
     let path = window.location.pathname;

@@ -62,15 +62,17 @@
         An error occur
       </div>          
     {% endif %}
+    <div class="alert alert-danger" id="alert-error" role="alert">
+      An error occured joining the quiz. Please try later.
+    </div>
 
     <!-- Display questions sets -->
     <div class="my-4" id="question-set-list">
       {% for question_set in question_set_list %}
-        {{question_set_list|length}}
         <div class="card w-100 my-4">
           <div class="card-header card-ans-header">
             <div class="title">
-              <strong>{{question_set.name}} {{question_set.id}} </strong>
+              <strong>{{question_set.name}}</strong>
             </div>
           </div>
           <div class="card-body grid-body">
@@ -81,8 +83,8 @@
               <p class="grid-font">{{question_set.date_created}}</p> 
             </div>
 
-            {% if question_set.is_public and question_set.is_assigned==False %}
-              <div class="w-100 cursor-pointer" onclick="joinQuiz(cuser.id, question_set.id)"
+            {% if question_set.is_public and question_set.is_assigned==False and question_set.owner != cuser.id%}
+              <div class="w-100 cursor-pointer" onclick="joinQuiz('{{cuser.id}}', '{{question_set.id}}')"
                 data-toggle="tooltip" data-placement="top" title="Click here to join quiz">
                 <div class="d-flex">
                   <i class="fas fa-users icon-success m-auto icon-md"></i>

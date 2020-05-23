@@ -139,7 +139,8 @@ def question_set_user_post():
   question_set_id = request.form.get('question_set')
   question_set = QuestionSet.query.filter_by(id=question_set_id).first()
 
-  if question_set.owner != current_user.id:
+  if question_set.owner != current_user.id and\
+      question_set.is_public is False:
     return redirect(url_for('main.not_auth'))
 
   try:

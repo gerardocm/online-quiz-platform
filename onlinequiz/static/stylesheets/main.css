@@ -125,11 +125,11 @@ li.nav-item{
 
 .grid-body {
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 25% 25% 25% 25%;
 }
 
 p.grid-font {
-  font-size: 24px;
+  font-size: 16px;
   text-align: center;
   margin-top: 8px;
   color: var(--theme-primary);

@@ -14,6 +14,7 @@ $(document).ready(function() {
   getQuestionSetId();
   changeBtnSubmitLabel();
   $("body").addClass("bkg-primary-light");
+  $('[data-toggle="tooltip"]').tooltip();
 
   function submitUpdateQuestionSet() {
     const url = "/create-question-set/" + questionSetId;
