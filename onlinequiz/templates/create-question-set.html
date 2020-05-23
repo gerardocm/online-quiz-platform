@@ -6,7 +6,7 @@
 
 {% block main %}
   <div class="content-questionset">
-    <h1 class="text-center my-4">Create Question Set</h1>
+    <h1 class="text-center my-4">Create Quiz</h1>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="alert alert-danger" role="alert">
@@ -35,7 +35,7 @@
           An error occurred while updating. Please try again.
         </div>
         <div class="alert alert-success" role="alert" id="question-set-success">
-          Question set updated
+          Quiz updated
         </div>
         <form method="POST" action="" id="question-set-form">
           {{ form.hidden_tag() }}
