@@ -3,11 +3,52 @@
 {% block head %}
 <title>Online</title>
 {% endblock %}
-  
+
 {% block main %}
+<div class="content-homepage">
+  {% if cuser and cuser.is_authenticated %}
+    <h1>Hi {{cuser.first_name}}, welcome to Quizard!</h1>
+  {% else %}
+    <h1>Welcome to Quizard!</h1>
+  {% endif %}
+</div>
 
-{% include 'navBar.html' %}
+<div class="content-homepage">
+  <h2 class="text-left my-4">What is Quizard?</h2>
+  <div class="my-4" id="container-filter">
+    <div class="card w-100 my-4 px-2 py-2">
+      <div class="card-body">
+        <h5 class="card-title">Origins</h5>
+        <p>Quizzard was created to fulfil the requirements for the second project of <em>CITS5505: Agile Web
+            Development</em>.</p>
+        <h5 class="card-title">Purpose</h5>
+        <p>The purpose of Quizzard is to provide an online, interactive quiz platform available for everyone!
+        </p>
+        <h5 class="card-title">Creators</h5>
+        <p>Gerardo Cisneros Mendoza (21993026) &amp; Cameron Cresswell (21499134).</p>
+      </div>
+    </div>
+  </div>
+</div>
 
-<h1>Template</h1>
+<div class="content-homepage">
+  <h2 class="text-left my-4">Features of Quizard</h2>
+  <div class="my-4" id="container-filter">
+    <div class="card w-100 my-4 px-2 py-2">
+      <div class="card-body">
+        <h5 class="card-title">Navigation</h5>
+        <p>Use the navigation bar at the top to navigate between taking a quiz, making a quiz and everything in
+          between!</em>.</p>
+        <h5 class="card-title">Types of Quizzes you can Create</h5>
+        <p>You can createa quiz with multi-choice, voting and free-form text questions, or any combination of
+          those three.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="content-homepage">
+  <p>Please contact either of the authors of the website (Gerardo or Cameron) if you have any further questions.</p>
+</footer>
 
 {% endblock %}

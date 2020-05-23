@@ -55,6 +55,10 @@ strong {
   margin: auto;
 }
 
+.content-homepage {
+  margin: 24px 48px;
+}
+
 .icon-danger, .color-danger {
   color: var(--theme-warning);
 }
