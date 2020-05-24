@@ -14,8 +14,21 @@
     <div class="text-right mb-4" id="date-created">
       {{question_set.date_created}}
     </div>
+    {% if question_set.owner == cuser.id %}
+      <a class="btn btn-outline-secondary btn-lg mr-0" type="button" 
+        data-toggle="tooltip" data-placement="top" title="Return to admin quiz"
+        href="{{url_for('admin_question_set.admin_question_set_get', set_id=question_set.id)}}">
+        <i class="fas fa-arrow-circle-left m-auto"></i><span class="ml-2">Return</span>        
+      </a>
+    {% else %}
+      <a class="btn btn-outline-secondary btn-lg mr-0" type="button" 
+        data-toggle="tooltip" data-placement="top" title="Return to quiz listing"
+        href="{{url_for('main.quizzes')}}">
+        <i class="fas fa-arrow-circle-left m-auto"></i><span class="ml-2">Return</span>        
+      </a>
+    {% endif %}
 
-    {% if questions.unanswered_questions_count > 0 %}
+    {% if questions.unanswered_questions_count > 0 and question_set.owner != cuser.id%}
       <div class="d-flex m-auto my-4">
         <i class="fas fa-exclamation-triangle icon-danger icon-lg m-auto"></i>
       </div>
@@ -26,7 +39,7 @@
         href="{{url_for('answer_question_set.answer_question_set_get', set_id=question_set.id, uid=uid )}}">
         <span class="m-auto">Answer quiz now</span>        
       </a>
-    {% else %}
+    {% elif questions.unanswered_questions_count == 0 or question_set.owner == cuser.id %}
       <!-- Display Manual questions -->
       <div class="my-4" id="manual-questions">
         {% for question in questions.manual_questions %}
@@ -38,15 +51,19 @@
               </div>
             </div>
             <div class="card-body">
-              <p>{{question.answer.answer}}</p>
-              <hr>
-              {% if question.answer.mark %}
-                <p><i class="fas fa-marker icon-success">
-                  </i>Mark: {{question.answer.mark}}</p>
+              {% if question.answer  %}
+                <p>{{question.answer.answer}}</p>
+                <hr>
+                {% if question.answer.mark %}
+                  <p><i class="fas fa-marker icon-success">
+                    </i>Mark: {{question.answer.mark}}</p>
+                {% else %}
+                  <p class="text-right">
+                    <i class="fas fa-marker icon-success"></i> 
+                    This questions has not been marked yet.</p>
+                {% endif %}
               {% else %}
-                <p class="text-right">
-                  <i class="fas fa-marker icon-success"></i> 
-                  This questions has not been marked yet.</p>
+                <p>NOT ANSWERED YET.</p>
               {% endif %}
             </div>
           </div>
@@ -69,10 +86,12 @@
                   <li class="list-group-item list-group-item-action list-group-item-light">
                     {{option.option}}
                     {{option.id}}
-                    {% if option.is_correct and question.answer.multichoice_option_id == option.id%}
-                      <i class="fas fa-check-circle icon-correct"></i>
-                    {% elif not option.is_correct and question.answer.multichoice_option_id == option.id%}
-                      <i class="fas fa-times-circle icon-danger"></i>
+                    {% if question.answer  %}
+                      {% if option.is_correct and question.answer.multichoice_option_id == option.id%}
+                        <i class="fas fa-check-circle icon-correct"></i>
+                      {% elif not option.is_correct and question.answer.multichoice_option_id == option.id%}
+                        <i class="fas fa-times-circle icon-danger"></i>
+                      {% endif %}
                     {% endif %}
                   </li>
                 {% endfor %}
@@ -99,7 +118,7 @@
                   <li class="list-group-item list-group-item-action list-group-item-light">
                     {{option.option}} ({{option.votes}} votes)
                     <div class="progress" style="height: 26px;">
-                      {% if option.id == question.answer.voting_option_id %}
+                      {% if question.answer and option.id == question.answer.voting_option_id %}
                         <div class="progress-bar bg-success" 
                           role="progressbar" 
                           style="width: {{option.votes_percent}}%;" 

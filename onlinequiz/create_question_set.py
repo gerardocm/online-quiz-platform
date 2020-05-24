@@ -31,7 +31,6 @@ def question_set():
 def question_set_post():
   name = request.form.get('name')
   is_public = True if request.form.get('is_public') is not None else False
-  # date = request.form.get('due_date')
   form = QuestionSetForm()
   if not form.validate_on_submit():
     flash('There was an error while creating the question set.')

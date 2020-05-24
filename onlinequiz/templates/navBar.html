@@ -1,4 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top" id="main-nav">
+<<<<<<< HEAD
     <div class="container-fluid">
         <a class="navbar-brand js-scroll-trigger" href="{{url_for('main.home')}}">
             <img src="{{ url_for('static', filename='/img/quizard-iso.png') }}" width="50" height="50">
@@ -35,6 +36,46 @@
                 {% endif %}
             </ul>
         </div>
+=======
+  <div class="container-fluid">
+    <a class="navbar-brand js-scroll-trigger" href="{{url_for('main.home')}}">
+      <img src="{{ url_for('static', filename='/img/quizard-iso.png') }}" alt="brand-logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-responsive"
+      aria-controls="navbar-responsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar-responsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('main.home')}}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('main.quizzes')}}">Quizzes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('create_question_set.question_set')}}">Create a Quiz</a>
+        </li>
+        {% if cuser and cuser.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              {{cuser.first_name}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="{{ url_for('auth.logout')}}">Logout</a>
+            </div>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.login')}}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('auth.signup')}}">Signup</a>
+          </li>
+        {% endif %}
+      </ul>
+>>>>>>> 161a21b188c46c8276371f0e056b4ef7f33e80ed
     </div>
   </div>
 </nav>

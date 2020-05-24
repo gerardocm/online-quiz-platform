@@ -6,7 +6,7 @@
 
 {% block main %}
   <div class="content-questionset">
-    <h1 class="text-center my-4">Create Question Set</h1>
+    <h1 class="text-center my-4">Create Quiz</h1>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <div class="alert alert-danger" role="alert">
@@ -15,13 +15,27 @@
       {% endif %}
     {% endwith %}
 
+    {% if not set_id %}
+      <a class="btn btn-outline-secondary btn-lg mr-0 mb-4" type="button" 
+        data-toggle="tooltip" data-placement="top" title="Cancel quiz creating"
+        href="{{url_for('main.quizzes')}}">
+        <i class="fas fa-arrow-circle-left m-auto"></i><span class="ml-2">Cancel</span>        
+      </a>
+    {% else %}
+      <a class="btn btn-outline-secondary btn-lg mr-0 mb-4" type="button" 
+        data-toggle="tooltip" data-placement="top" title="You can complete the quiz later"
+        href="{{url_for('main.quizzes')}}">
+        <i class="fas fa-arrow-circle-left m-auto"></i><span class="ml-2">Return</span>        
+      </a>
+    {% endif %}
+
     <div class="card w-100">
       <div class="card-body">
         <div class="alert alert-danger" role="alert" id="question-set-error">
           An error occurred while updating. Please try again.
         </div>
         <div class="alert alert-success" role="alert" id="question-set-success">
-          Question set updated
+          Quiz updated
         </div>
         <form method="POST" action="" id="question-set-form">
           {{ form.hidden_tag() }}

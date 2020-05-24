@@ -27,8 +27,11 @@
 </head>
 <body>
   {% include 'navbar.html' %}
-  <main role="main">
+  <main>
     {% block main %}{% endblock %}
   </main>
+  <footer>
+    {% include 'footer.html' %}
+  </footer>
 </body>
 </html>

@@ -13,6 +13,7 @@ main {
   top: 77px;
   padding-top: 24px;
   padding-bottom: 24px;
+  min-height: 100vh !important;
 }
 
 a {
@@ -72,14 +73,18 @@ strong {
 }
 
 .icon-lg {
-  font-size: 68px;;
+  font-size: 68px;
+}
+
+.icon-md {
+  font-size: 38px;
 }
 
 .col-form-label {
   color: var(--theme-dark-primary) !important;
 }
 
-/* The following stylings are for the navBar.html file */
+/* The following stylings are for the navbar.html file */
 
 .main-menubox {
   display: none;
@@ -93,6 +98,10 @@ strong {
   background-color: var(--theme-primary);
   color: white;
   font-weight: 500;
+}
+
+.navbar.sticky-bottom{
+  margin-top: 108px;
 }
 
 .nav-link {
@@ -198,5 +207,35 @@ li.nav-item{
 =======
 .form-check-input {
   cursor: pointer;
+<<<<<<< HEAD
 >>>>>>> ae80b118e7ed13248d69ffdc6fb4aba9923743dd
+=======
+}
+
+.filter-col {
+  max-width: fit-content;
+  min-width: 130px;
+  margin: auto;
+}
+
+.grid-body {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
+
+p.grid-font {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 8px;
+  color: var(--theme-primary);
+}
+
+.grid-body > a:hover {
+  text-decoration: none;
+  opacity: 0.6;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+>>>>>>> 161a21b188c46c8276371f0e056b4ef7f33e80ed
 }
