@@ -56,6 +56,10 @@ strong {
   margin: auto;
 }
 
+#indexHead {
+  margin-top: -28px;
+}
+
 .icon-danger, .color-danger {
   color: var(--theme-warning);
 }
@@ -147,4 +151,8 @@ p.grid-font {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+#indexHead{
+  padding:128px 16px;
 }
