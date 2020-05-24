@@ -1,5 +1,5 @@
 import unittest, os
-from onlinequiz import create_app, db
+from onlinequiz import create_test_app, db
 from werkzeug.security import generate_password_hash
 from onlinequiz.models import (
   User,
@@ -13,42 +13,49 @@ from onlinequiz.models import (
 )
 
 class UserModelTest(unittest.TestCase):
+    test_app = None
+
+    def create_app(self):
+        # pass in test configuration
+        return create_test_app(self)
 
     def setUp(self):
-        self.create_app = create_app.test_client()
-        db.create_all()
-        user1 = User(first_name='TestOne', last_name='Testerson', email='T1Testerson@gmail.com', password=generate_password_hash('password123', method='sha256'))
+        self.test_app = create_test_app()
+        with self.test_app.app_context():
+            db.create_all()
+            user1 = User(first_name='TestOne', last_name='Testerson', email='T1Testerson@gmail.com', password=generate_password_hash('password123', method='sha256'))
             # Password field from auth.py
-        db.session.add(user1)
-        db.session.commit()
+            db.session.add(user1)
+            db.session.commit()
 
     def tearDown(self):
         db.session.remove()
-        db.session.dropall()
+        db.drop_all()
+
         
 ## Helper Functions ##
     def signup(self, first_name, last_name, email, password):
-        return self.create_app.post(
+        return self.test_app.post(
             '/signup',
             data=dict(first_name=first_name, last_name=last_name, email=email, password=password),
             follow_redirects=True
         )
  
     def login(self, email, password):
-        return self.create_app.post(
+        return self.test_app.post(
             '/login',
             data=dict(email=email, password=password),
             follow_redirects=True
         )
  
     def logout(self):
-        return self.create_app.get(
+        return self.test_app.get(
             '/logout',
             follow_redirects=True
         )
 ## auth.py
     def test_pw_hash(self):
-        u = User.query.get()
+        u = User.query.filter_by(email='T1Testerson@gmail.com').first()
         # Check the password has been hashed from the original
         self.assertFalse(u.password=='password123')
         # Check the password hash can be replicated

@@ -11,14 +11,9 @@ db = SQLAlchemy()
 def create_app():
   app = Flask(__name__)
 
-  # prod config
   app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
   app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 
-  # test config
-  # app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
-  #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'Tests/test.db')
-  
   db.init_app(app)
 
   # blueprint for auth routes in the app
@@ -60,3 +55,11 @@ def create_app():
       return User.query.get(int(user_id))
 
   return app
+
+def create_test_app():
+    app = Flask(__name__)
+    app.config['SECRET_KEY'] = '589ac1807dbcda5df05d017c4903fbd3'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+    db.init_app(app)
+    app.app_context().push()
+    return app

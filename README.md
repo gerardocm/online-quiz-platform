@@ -16,8 +16,10 @@ CITS5505 Agile Web Development /Project 2
     "db.create_all(app=create_app())"
 
 * You should see a new file created named "quiz.db" under onlinequiz directory
-<<<<<<< .merge_file_a21560
-=======
 * To exit the python command line type exit() and press enter
->>>>>>> .merge_file_a18228
 
+# Steps to run the unit tests
+Run the command:
+    python -m unittest
+
+* Make sure you have the virtual environment acitve
