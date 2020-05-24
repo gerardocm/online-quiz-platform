@@ -52,6 +52,6 @@ class QuestionSetForm(FlaskForm):
 class QuestionForm(FlaskForm):
   question = StringField(
     'Question', 
-    validators=[DataRequired(), Length(min=3, max=35)]
+    validators=[DataRequired(), Length(min=3, max=100)]
   )
   submit = SubmitField('Save')

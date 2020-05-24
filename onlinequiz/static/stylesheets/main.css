@@ -13,6 +13,7 @@ main {
   top: 77px;
   padding-top: 24px;
   padding-bottom: 24px;
+  min-height: 100vh !important;
 }
 
 a {
@@ -87,7 +88,7 @@ strong {
   color: var(--theme-dark-primary) !important;
 }
 
-/* The following stylings are for the navBar.html file */
+/* The following stylings are for the navbar.html file */
 
 .main-menubox {
   display: none;
@@ -101,6 +102,10 @@ strong {
   background-color: var(--theme-primary);
   color: white;
   font-weight: 500;
+}
+
+.navbar.sticky-bottom{
+  margin-top: 108px;
 }
 
 .nav-link {
