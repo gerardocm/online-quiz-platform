@@ -147,3 +147,7 @@ p.grid-font {
 .cursor-pointer {
   cursor: pointer;
 }
+
+#indexHead{
+  padding:128px 16px;
+}

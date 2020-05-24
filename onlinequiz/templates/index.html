@@ -7,7 +7,7 @@
 {% block main %}
 
 <!-- Header -->
-<header class="w3-container w3-light-grey w3-center" style="padding:128px 16px">
+<header id="indexHead" class="w3-container w3-light-grey w3-center">
   {% if cuser and cuser.is_authenticated %}
   <h1 class="w3-margin w3-jumbo">Hi {{cuser.first_name}}, welcome to Quizard!</h1>
   {% else %}
