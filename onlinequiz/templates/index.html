@@ -5,11 +5,16 @@
 <!-- Header -->
 <header id="indexHead" class="w3-container w3-light-grey w3-center">
   {% if cuser and cuser.is_authenticated %}
-  <h1 class="w3-margin w3-jumbo">Hi {{cuser.first_name}}, welcome to Quizard!</h1>
+    <h1 class="w3-margin w3-jumbo">Hi {{cuser.first_name}}, welcome to Quizard!</h1>
+    <div class="w3-button w3-black w3-padding-large w3-large w3-margin-top">
+      <a href="{{url_for('main.quizzes')}}">Get Started</a>
+    </div>
   {% else %}
-  <h1 class="w3-margin w3-jumbo">Welcome to Quizard!</h1>
+    <h1 class="w3-margin w3-jumbo">Welcome to Quizard!</h1>
+    <div class="w3-button w3-black w3-padding-large w3-large w3-margin-top">
+      <a href="{{url_for('auth.signup')}}">Get Started</a>
+    </div>
   {% endif %}
-  <div class="w3-button w3-black w3-padding-large w3-large w3-margin-top"><a href="#firstGrid">Get Started</a></div>
 </header>
 
 <!-- First Grid -->
