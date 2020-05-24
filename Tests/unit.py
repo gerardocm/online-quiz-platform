@@ -32,51 +32,26 @@ class UserModelTest(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-        
-## Helper Functions ##
-    def signup(self, first_name, last_name, email, password):
-        return self.test_app.post(
-            '/signup',
-            data=dict(first_name=first_name, last_name=last_name, email=email, password=password),
-            follow_redirects=True
-        )
- 
-    def login(self, email, password):
-        return self.test_app.post(
-            '/login',
-            data=dict(email=email, password=password),
-            follow_redirects=True
-        )
- 
-    def logout(self):
-        return self.test_app.get(
-            '/logout',
-            follow_redirects=True
-        )
-## auth.py
     def test_pw_hash(self):
         u = User.query.filter_by(email='T1Testerson@gmail.com').first()
         # Check the password has been hashed from the original
         self.assertFalse(u.password=='password123')
-        # Check the password hash can be replicated
-        self.assertTrue(u.password==generate_password_hash('password123', method='sha256'))
         # Check against similar password
         self.assertFalse(u.password==generate_password_hash('passwOrd123', method='sha256'))
 
-    def test_signup_same_email(self):
-        response = self.signup('Tester', 'Testoforsson', 'T1Testerson@gmail.com', 'pw')
-        self.assertIn(b'Email address already exists', response.data)
-
-    def test_login_diff_password(self):
-        response = self.login('T1Testerson@gmail.com', 'password123')
-        self.assertIn(b'Please check your login details and try again.', response.data)
-
-# class SystemTest(unittest.TestCase):
-#     driver = None
-
-#     def setUp(self):
-#         sel.driver = webDriver(Chrome(executable_path=))
-
+# Create question set (successful)
+# Create MCQ question with options (successful)
+# Create Voting question with options (successful)
+# Create Free text question with options (successful)
+# Create MCQ question without valid question set (unsuccessful)
+# Create Voting question without valid question set (unsuccessful)
+# Create Free text question without valid question set (unsuccessful)
+# Update MCQ question with options (successful)
+# Update Voting question with options (successful)
+# Update Free text question with options (successful)
+# Delete MCQ question with options (successful)
+# Delete Voting question with options (successful)
+# Delete Free text question with options (successful)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
