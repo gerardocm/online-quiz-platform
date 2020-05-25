@@ -28,9 +28,6 @@ def create_app():
   from .create_question_set import create_question_set as create_question_set_blueprint
   app.register_blueprint(create_question_set_blueprint)
 
-  # blueprint for displaying question sets
-  from .display_question_set import all_question_sets_available as all_question_sets_available_blueprint
-  app.register_blueprint(all_question_sets_available_blueprint)
   # blueprint for admin question set in the app
   from .admin_question_set import admin_question_set as admin_question_set_blueprint
   app.register_blueprint(admin_question_set_blueprint)
