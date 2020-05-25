@@ -19,7 +19,11 @@ CITS5505 Agile Web Development /Project 2
 * To exit the python command line type exit() and press enter
 
 # Steps to run the unit tests
-Run the command:
-    python -m unittest
+From the command line (making sure your virtual environment is activated and your current directory is online-quiz-platform), run the command:
+    python -m Tests.unit
+
+# Steps to run the system tests
+From the command line (making sure your virtual environment is activated and your current directory is online-quiz-platform), run the command:
+    python -m Tests.system
 
 * Make sure you have the virtual environment acitve

@@ -172,8 +172,5 @@ class SystemTest(unittest.TestCase):
 
     self.assertEqual(self.driver.current_url, 'http://localhost:5000/quizzes')
 
-# Cannot view private question set test
-# Can view public question set
-
 if __name__=='__main__':
   unittest.main(verbosity=2)
