@@ -23,7 +23,10 @@ class SystemTest(unittest.TestCase):
       return create_test_app(self)
 
   def setUp(self):
-    self.driver = webdriver.Chrome(executable_path=os.path.join(basedir,'chromedriver'))
+    # MacOS path
+    self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
+    # Windows local path
+    # self.driver = webdriver.Chrome(executable_path=os.path.join(basedir,'chromedriver'))
     if not self.driver:
       self.skipTest
     else:
