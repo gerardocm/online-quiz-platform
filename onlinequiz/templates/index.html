@@ -1,9 +1,98 @@
 {% extends 'base.html' %}
 {% block head %}
-{% endblock %}
-  
-{% block main %}
+  <!-- W3Schools Custom CSS -->
+  <!-- 
+    We have decided to use this template as this page is trivial and  
+    the UI/UX design on the application pages would take more time and effort
+  -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+{% endblock head%}
 
-{% include 'navbar.html' %}
+{% block main %}
+  <!-- Header -->
+  <header id="indexHead" class="w3-container w3-light-grey w3-center">
+    {% if cuser and cuser.is_authenticated %}
+      <h1 class="w3-margin w3-jumbo">Hi {{cuser.first_name}}, welcome to Quizard!</h1>
+      <div class="w3-button w3-black w3-padding-large w3-large w3-margin-top">
+        <a href="{{url_for('main.quizzes')}}">Get Started</a>
+      </div>
+    {% else %}
+      <h1 class="w3-margin w3-jumbo">Welcome to Quizard!</h1>
+      <div class="w3-button w3-black w3-padding-large w3-large w3-margin-top">
+        <a href="{{url_for('auth.signup')}}">Get Started</a>
+      </div>
+    {% endif %}
+  </header>
+
+  <!-- First Grid -->
+  <div id="firstGrid" class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1>Origins</h1>
+        <h5 class="w3-padding-32">From humble beginnings, Quizard has been developed to be a fully self-contained flask
+          application ready to be hosted on the web!</h5>
+        <p class="w3-text-grey">Originally, Quizard was created to fulfil the requirements for the second project of
+          <em>CITS5505: Agile Web
+            Development</em>. However, the two developers (Gerardo and Cameron) quickly realised that they were onto a
+          winner. By utilising all the tools that web development has to offer</p>
+        <ul>
+          <li class="w3-text-grey">HTML5</li>
+          <li class="w3-text-grey">CSS (Custom &amp; Bootstrap)</li>
+          <li class="w3-text-grey">JavaScript</li>
+          <li class="w3-text-grey">Flask</li>
+        </ul>
+        <p class="w3-text-grey">They have developed Quizard to be one of the most functional open source quiz applications
+          there is.</p>
+      </div>
+
+      <div class="w3-third w3-center">
+        <img src="{{ url_for('static', filename='/img/origins-logo.png') }}" alt="origin logo"></img>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Grid -->
+  <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-third w3-center">
+        <img src="{{ url_for('static', filename='/img/features-logo.png') }}" alt="features logo"></img>
+      </div>
+      <div class="w3-twothird">
+        <h1>Features</h1>
+        <h5 class="w3-padding-32">Quizard is packed full of features, raring to go for any user!</h5>
+        <h6></h6>
+        <p class="w3-text-grey">Quizard has been design with user-friendliness at the fore front of every decision -
+          designed by web users, for web users! Using Quizard, you can develop:</p>
+        <ul>
+          <li class="w3-text-grey">Multi-choice</li>
+          <li class="w3-text-grey">Voting</li>
+          <li class="w3-text-grey">Free-text</li>
+          <li class="w3-text-grey">Any combination of the above</li>
+        </ul>
+        <p class="w3-text-grey">To your heart's content!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Third Grid -->
+  <div id="firstGrid" class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+      <div class="w3-twothird">
+        <h1>Navigation &amp; Usage</h1>
+        <h5 class="w3-padding-32">Navigating between views and creating your own personal quizzes using Quizard is as easy
+          as 1-2-3!</h5>
+        <h6>Navigation</h6>
+        <p class="w3-text-grey">Use the navigation bar at the top to navigate between taking a quiz, making a quiz and
+          everything in
+          between!</p>
+        <h6>Usage</h6>
+        <p class="w3-text-grey">Use the naviation at the top of your webpage to use Quizard.</p>
+      </div>
+
+      <div class="w3-third w3-center">
+        <img src="{{ url_for('static', filename='/img/navigation-logo.png') }}" alt="navigation logo"></img>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

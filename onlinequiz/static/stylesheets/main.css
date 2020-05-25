@@ -56,6 +56,10 @@ strong {
   margin: auto;
 }
 
+#indexHead {
+  margin-top: -28px;
+}
+
 .icon-danger, .color-danger {
   color: var(--theme-warning);
 }
@@ -118,98 +122,8 @@ li.nav-item{
   padding: 10px 20px;
 }
 
-<<<<<<< HEAD
-/* The following stylings are for the all-question-sets.html file */
-
-.quiz_section {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.quiz_list {
-  padding-left: 2%;
-  padding-right: 2%;
-}
-
-/* The following stylings are for the complete-quiz.html file */
-
-.quiz_form {
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.quiz_answers {
-  padding-left: 2%;
-  padding-right: 2%;
-}
-
-.mcq_radiobutton_container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Hide the browser's default radio button */
-.mcq_radiobutton_container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-/* Create a custom radio button */
-.mcq_radiobutton {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
-  border-radius: 50%;
-}
-
-/* On mouse-over, add a grey background color */
-.mcq_radiobutton_container:hover input~.mcq_radiobutton {
-  background-color: #b891ec;
-}
-
-/* When the radio button is checked, add a blue background */
-.mcq_radiobutton_container input:checked~.mcq_radiobutton {
-  background-color: #210b40;
-}
-
-/* Create the indicator (the dot/circle - hidden when not checked) */
-.mcq_radiobutton:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-/* Show the indicator (dot/circle) when checked */
-.mcq_radiobutton_container input:checked~.mcq_radiobutton:after {
-  display: block;
-}
-
-/* Style the indicator (dot/circle) */
-.mcq_radiobutton_container .mcq_radiobutton:after {
-  top: 9px;
-  left: 9px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: white;
-=======
 .form-check-input {
   cursor: pointer;
-<<<<<<< HEAD
->>>>>>> ae80b118e7ed13248d69ffdc6fb4aba9923743dd
-=======
 }
 
 .filter-col {
@@ -237,5 +151,8 @@ p.grid-font {
 
 .cursor-pointer {
   cursor: pointer;
->>>>>>> 161a21b188c46c8276371f0e056b4ef7f33e80ed
+}
+
+#indexHead{
+  padding:128px 16px;
 }
