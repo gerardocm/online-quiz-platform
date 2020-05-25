@@ -1,13 +1,15 @@
-# online-quiz-platform
+# online-quiz-platform QUIZARD
 CITS5505 Agile Web Development /Project 2
+* Gerardo Cisneros Mendoza 21993026
+* Cameron Cresswell 21499134
 
-# Steps to run
+## Steps to run
 * activate the virtual environment
 * go to main path
 * command: `python run.py`
 
 
-# Create DB
+## Create DB
 1. Activate the virtual environmnet (if it's not activated yet)
 2. Type `python` in the command line and hit enter
 3. Import the modules:
@@ -18,11 +20,11 @@ CITS5505 Agile Web Development /Project 2
 * You should see a new file created named "quiz.db" under onlinequiz directory
 * To exit the python command line type `exit()` and press enter
 
-# Steps to run the unit tests
+## Steps to run the unit tests
 From the command line (making sure your virtual environment is activated and your current directory is online-quiz-platform), run the command:
     `python -m Tests.unit`
 
-# Steps to run the system tests
+## Steps to run the system tests
 From the command line (making sure your virtual environment is activated and your current directory is online-quiz-platform), run the command:
     `python -m Tests.system`
 
