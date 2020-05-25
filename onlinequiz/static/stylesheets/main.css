@@ -13,6 +13,7 @@ main {
   top: 77px;
   padding-top: 24px;
   padding-bottom: 24px;
+  min-height: 100vh !important;
 }
 
 a {
@@ -53,6 +54,10 @@ strong {
 .content-questionset {
   max-width: 824px;
   margin: auto;
+}
+
+#indexHead {
+  margin-top: -28px;
 }
 
 .icon-danger, .color-danger {
@@ -99,6 +104,10 @@ strong {
   font-weight: 500;
 }
 
+.navbar.sticky-bottom{
+  margin-top: 108px;
+}
+
 .nav-link {
   color: white;
   font-weight: bolder;
@@ -142,4 +151,8 @@ p.grid-font {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+#indexHead{
+  padding:128px 16px;
 }
