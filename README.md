@@ -3,6 +3,12 @@ CITS5505 Agile Web Development /Project 2
 * Gerardo Cisneros Mendoza 21993026
 * Cameron Cresswell 21499134
 
+You can visit the link below for the live version:
+https://gecime.pythonanywhere.com/
+
+The github repo is:
+https://github.com/gerardocm/online-quiz-platform
+
 ## Steps to run
 * activate the virtual environment
 * go to main path
