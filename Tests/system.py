@@ -24,9 +24,9 @@ class SystemTest(unittest.TestCase):
 
   def setUp(self):
     # MacOS path
-    self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
+    # self.driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
     # Windows local path
-    # self.driver = webdriver.Chrome(executable_path=os.path.join(basedir,'chromedriver'))
+    self.driver = webdriver.Chrome(executable_path=os.path.join(basedir,'chromedriver'))
     if not self.driver:
       self.skipTest
     else:
@@ -57,9 +57,11 @@ class SystemTest(unittest.TestCase):
   def test_login(self):
     self.driver.get('http://localhost:5000')
     time.sleep(1)
+    self.driver.implicitly_wait(5)
     login_page = self.driver.find_element_by_xpath('//a[contains(@href,"login")]')
     login_page.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     email_field = self.driver.find_element_by_id('email')
     password_field = self.driver.find_element_by_id('password')
@@ -69,12 +71,14 @@ class SystemTest(unittest.TestCase):
     password_field.send_keys('password123')
     submit.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
     
     self.assertEqual(self.driver.current_url, 'http://localhost:5000/quizzes')
 
   def test_login_fail(self):
     self.driver.get('http://localhost:5000')
     time.sleep(1)
+    self.driver.implicitly_wait(5)
     login_page = self.driver.find_element_by_xpath('//a[contains(@href,"login")]')
     login_page.click()
     time.sleep(1)
@@ -87,6 +91,7 @@ class SystemTest(unittest.TestCase):
     password_field.send_keys('notactualPassword')
     submit.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     flashed_message = self.driver.find_element_by_xpath('//div[@role="alert"]').text
     self.assertEqual(flashed_message, 'Please check your login details and try again.')
@@ -94,9 +99,11 @@ class SystemTest(unittest.TestCase):
   def test_logout(self):
     self.driver.get('http://localhost:5000')
     time.sleep(1)
+    self.driver.implicitly_wait(5)
     login_page = self.driver.find_element_by_xpath('//a[contains(@href,"login")]')
     login_page.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     email_field = self.driver.find_element_by_id('email')
     password_field = self.driver.find_element_by_id('password')
@@ -106,10 +113,12 @@ class SystemTest(unittest.TestCase):
     password_field.send_keys('password123')
     submit.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     if (self.driver.current_url == 'http://localhost:5000/quizzes'):
         self.driver.get('http://localhost:5000/logout')
         time.sleep(1)
+        self.driver.implicitly_wait(5)
 
     login_html = self.driver.find_element_by_xpath('//a[contains(@href,"login")]').text
     self.assertEqual(login_html, 'Login')
@@ -117,9 +126,11 @@ class SystemTest(unittest.TestCase):
   def test_signup_confirm_password_wrong(self):
     self.driver.get('http://localhost:5000')
     time.sleep(1)
+    self.driver.implicitly_wait(5)
     login_page = self.driver.find_element_by_xpath('//a[contains(@href,"signup")]')
     login_page.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     first_name_field = self.driver.find_element_by_id('first_name')
     last_name_field = self.driver.find_element_by_id('last_name')
@@ -141,6 +152,7 @@ class SystemTest(unittest.TestCase):
     confirm_password_field.send_keys(new_user_wrong_confirm_password)
     submit.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     flashed_message = self.driver.find_element_by_class_name('invalid-feedback').text
     self.assertEqual(flashed_message, 'Field must be equal to password.')
@@ -152,6 +164,7 @@ class SystemTest(unittest.TestCase):
     login_page = self.driver.find_element_by_xpath('//a[contains(@href,"signup")]')
     login_page.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     first_name_field = self.driver.find_element_by_id('first_name')
     last_name_field = self.driver.find_element_by_id('last_name')
@@ -162,7 +175,7 @@ class SystemTest(unittest.TestCase):
 
     new_user_first_name = 'New'
     new_user_last_name = 'User'
-    new_user_email = 'new.user1@fake_email.com'
+    new_user_email = 'new.user123@fake_email.com'
     new_user_password = 'poorpassword'
 
     first_name_field.send_keys(new_user_first_name)
@@ -172,6 +185,7 @@ class SystemTest(unittest.TestCase):
     confirm_password_field.send_keys(new_user_password)
     submit.click()
     time.sleep(1)
+    self.driver.implicitly_wait(5)
 
     self.assertEqual(self.driver.current_url, 'http://localhost:5000/quizzes')
 

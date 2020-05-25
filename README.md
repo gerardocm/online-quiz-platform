@@ -31,11 +31,15 @@ You can download the driver from: https://chromedriver.chromium.org/
 For MacOS users:
     `brew cask install chromedriver`
 
+Make sure you have the flask app running before you call the command! You can do this by either:
+- Completing the "Steps to run" (as outlined above) in a separate command line terminal
+- Completing the "Steps to run" as below (this runs the flask app in the background):
+    `python run.py &`
+
 More information about the chronium driver on MacOS:
     https://www.kenst.com/2015/03/including-the-chromedriver-location-in-macos-system-path/
 
 If the chrome driver path changes the line 27 of the file `systems.py` need to be updated
   `self.driver = webdriver.Chrome('your/chromedriver/path')`
-
 
 * Make sure you have the virtual environment acitve
