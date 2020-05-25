@@ -17,6 +17,14 @@ CITS5505 Agile Web Development /Project 2
 4. Create the DB:
     `db.create_all(app=create_app())`
 
+- We recommend the creation of new data to have play around all the functionality
+    but a database has been included in the zip file as part of the project.
+- You can easily delete the database file called "quiz.db"
+- User test:
+    email: gg1@test.com
+    pwd: 123456789
+
+
 * You should see a new file created named "quiz.db" under onlinequiz directory
 * To exit the python command line type `exit()` and press enter
 
